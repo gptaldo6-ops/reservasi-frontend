@@ -13,10 +13,10 @@ document.getElementById("btnTest").addEventListener("click", async () => {
 
   try {
     const res = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+    method: "POST",
+    body: JSON.stringify(payload)
     });
+
 
     const data = await res.json();
     document.getElementById("output").textContent =
@@ -27,3 +27,4 @@ document.getElementById("btnTest").addEventListener("click", async () => {
       "ERROR: " + err.message;
   }
 });
+
