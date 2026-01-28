@@ -274,28 +274,3 @@ if (btnSubmit) {
 };
 
 
-
-      const result = await res.json();
-
-      if (result.success) {
-        if (statusEl) {
-          statusEl.innerText =
-            "Reservasi berhasil! Kode: " + result.resvId;
-        }
-      } else {
-        if (statusEl) {
-          statusEl.innerText =
-            "Gagal: " + (result.message || "Unknown error");
-        }
-      }
-
-    } catch (err) {
-      console.error(err);
-      if (statusEl) statusEl.innerText = "Error koneksi server";
-    }
-  };
-}
-
-
-
-
