@@ -1,10 +1,12 @@
+const summaryEl = document.getElementById("order-summary");
+
 document.querySelectorAll(".paket-card").forEach(card => {
+  const paketKode = card.dataset.paket;
   const capacity = parseInt(card.dataset.capacity, 10);
 
   const paketQtyEl = card.querySelector(".paket-qty");
   const paketPlus = card.querySelector(".paket-plus");
   const paketMinus = card.querySelector(".paket-minus");
-
   const variants = card.querySelectorAll(".variant");
 
   let paketQty = 0;
@@ -35,9 +37,10 @@ document.querySelectorAll(".paket-card").forEach(card => {
         plus.disabled = totalVariant >= maxVariant;
       }
     });
+
+    updateSummary();
   }
 
-  // ✅ PAKET PLUS (INI HARUS SELALU BISA DIKLIK)
   paketPlus.addEventListener("click", () => {
     paketQty++;
     paketQtyEl.textContent = paketQty;
@@ -49,15 +52,12 @@ document.querySelectorAll(".paket-card").forEach(card => {
     paketQtyEl.textContent = paketQty;
 
     if (paketQty === 0) {
-      variants.forEach(v => {
-        v.querySelector(".variant-qty").textContent = 0;
-      });
+      variants.forEach(v => v.querySelector(".variant-qty").textContent = 0);
     }
 
     updateVariantUI();
   });
 
-  // VARIANT
   variants.forEach(v => {
     const vQtyEl = v.querySelector(".variant-qty");
 
@@ -78,5 +78,42 @@ document.querySelectorAll(".paket-card").forEach(card => {
     });
   });
 
+  function updateSummary() {
+    const data = [];
+
+    document.querySelectorAll(".paket-card").forEach(c => {
+      const kode = c.dataset.paket;
+      const qty = parseInt(c.querySelector(".paket-qty").textContent, 10);
+      if (qty > 0) {
+        const items = [];
+        c.querySelectorAll(".variant").forEach(v => {
+          const vQty = parseInt(v.querySelector(".variant-qty").textContent, 10);
+          if (vQty > 0) {
+            items.push(`${v.dataset.variant} × ${vQty}`);
+          }
+        });
+
+        data.push({
+          paket: kode,
+          qty,
+          items
+        });
+      }
+    });
+
+    if (data.length === 0) {
+      summaryEl.innerHTML = "<p>Belum ada paket dipilih</p>";
+      return;
+    }
+
+    summaryEl.innerHTML = data.map(d => `
+      <div style="margin-bottom:8px">
+        <strong>Paket ${d.paket} × ${d.qty}</strong><br/>
+        ${d.items.length ? d.items.join("<br/>") : "<em>Belum pilih variant</em>"}
+      </div>
+    `).join("");
+  }
+
   updateVariantUI();
 });
+
