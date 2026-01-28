@@ -153,3 +153,79 @@ section input[type="radio"] {
   opacity: 0.3;
 }
 
+.denah {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  height: 420px;
+  border: 2px solid #ccc;
+  margin: 0 auto;
+  background: #fafafa;
+  border-radius: 12px;
+}
+
+.bar {
+  position: absolute;
+  top: 16px;
+  left: 60px;
+  width: 240px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-weight: bold;
+  background: #eee;
+  border: 2px solid #999;
+  border-radius: 8px;
+}
+
+.meja {
+  position: absolute;
+  border: 2px solid #666;
+  background: #eee;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px;
+  user-select: none;
+}
+
+.meja.available {
+  background: #c8e6c9;
+  border-color: #2e7d32;
+}
+
+.meja.full {
+  background: #ffcdd2;
+  border-color: #c62828;
+  cursor: not-allowed;
+}
+
+.meja.selected {
+  background: #81c784;
+  border-color: #1b5e20;
+  font-weight: bold;
+}
+
+/* POSISI */
+.kanan1 { left: 20px; top: 100px; width: 70px; height: 40px; }
+.kanan2 { left: 20px; top: 150px; width: 70px; height: 40px; }
+.kanan3 { left: 20px; top: 200px; width: 70px; height: 30px; }
+
+.kiri1 { right: 20px; top: 100px; width: 70px; height: 40px; }
+.kiri2 { right: 20px; top: 150px; width: 70px; height: 40px; }
+.kiri3 { right: 20px; top: 200px; width: 70px; height: 30px; }
+
+.tengah {
+  left: 145px;
+  top: 100px;
+  width: 60px;
+  height: 100px;
+}
+
+.tengah-belakang {
+  left: 120px;
+  top: 220px;
+  width: 120px;
+  height: 45px;
+}
