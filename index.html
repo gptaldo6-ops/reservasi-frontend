@@ -200,23 +200,29 @@
 <section>
   <h3>Pilih Meja</h3>
 
-  <div class="denah">
-    <div class="bar">BAR</div>
+<div class="denah">
+  <div class="bar">BAR</div>
 
-    <div class="meja kanan1" data-id="KANAN-1">KANAN 1<br>4 org</div>
-    <div class="meja kanan2" data-id="KANAN-2">KANAN 2<br>4 org</div>
-    <div class="meja kanan3" data-id="KANAN-3">KANAN 3<br>2 org</div>
+  <div class="grid">
+    <div class="col left">
+      <div class="meja" data-id="KANAN-1">KANAN 1<br>4 org</div>
+      <div class="meja" data-id="KANAN-2">KANAN 2<br>4 org</div>
+      <div class="meja small" data-id="KANAN-3">KANAN 3<br>2 org</div>
+    </div>
 
-    <div class="meja tengah" data-id="TENGAH">TENGAH<br>6 org</div>
+    <div class="col center">
+      <div class="meja big" data-id="TENGAH">TENGAH<br>6 org</div>
+      <div class="meja wide" data-id="TENGAH-BELAKANG">TENGAH BLKG<br>6 org</div>
+    </div>
 
-    <div class="meja kiri1" data-id="KIRI-1">KIRI 1<br>4 org</div>
-    <div class="meja kiri2" data-id="KIRI-2">KIRI 2<br>4 org</div>
-    <div class="meja kiri3" data-id="KIRI-3">KIRI 3<br>2 org</div>
-
-    <div class="meja tengah-belakang" data-id="TENGAH-BELAKANG">
-      TENGAH BLKG<br>6 org
+    <div class="col right">
+      <div class="meja" data-id="KIRI-1">KIRI 1<br>4 org</div>
+      <div class="meja" data-id="KIRI-2">KIRI 2<br>4 org</div>
+      <div class="meja small" data-id="KIRI-3">KIRI 3<br>2 org</div>
     </div>
   </div>
+</div>
+
 
   <p id="mejaTerpilih" style="text-align:center;margin-top:10px;"></p>
 </section>
@@ -234,6 +240,7 @@
 
 </body>
 </html>
+
 
 
 
