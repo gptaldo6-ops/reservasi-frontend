@@ -1,3 +1,10 @@
+document.addEventListener("click", e => {
+  if (e.target.tagName === "BUTTON") {
+    console.log("BUTTON CLICKED:", e.target.className);
+  }
+});
+
+
 const ROOM_TABLES = {
   R1: ["R1-A1", "R1-A2", "R1-A3", "R1-A4"],
   R2: ["R2-B1", "R2-B2", "R2-B3"],
@@ -146,6 +153,7 @@ function renderTables() {
     tableMap.appendChild(div);
   });
 }
+
 
 
 
