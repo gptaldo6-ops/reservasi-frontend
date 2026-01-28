@@ -251,17 +251,27 @@ if (btnSubmit) {
       return;
     }
 
-    // 🔥 PANGGIL POPUP DI SINI (PASTI KEJALAN)
-    showPaymentPopup({
-      resvId: "R-TEST-01",      // nanti ganti ID asli
-      nama: nama,
-      tanggal: tanggal,
-      meja: selectedTable,
-      total: 150000             // nanti ganti hitungan asli
-    });
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = API_URL;
 
-    // ⛔ sementara JANGAN submit form dulu
-    // supaya fokus ke flow popup
+    const add = (n, v) => {
+      const i = document.createElement("input");
+      i.type = "hidden";
+      i.name = n;
+      i.value = typeof v === "string" ? v : JSON.stringify(v);
+      form.appendChild(i);
+    };
+
+    add("nama", nama);
+    add("whatsapp", whatsapp);
+    add("tanggal", tanggal);
+    add("tableId", selectedTable);
+    add("paket", paket);
+
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
   };
 }
 
@@ -292,6 +302,7 @@ function closePayment() {
   document.getElementById("paymentModal")
     .classList.add("hidden");
 }
+
 
 
 
