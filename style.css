@@ -5,65 +5,96 @@
 
 body {
   margin: 0;
-  padding: 16px;
-  background: #f7f7f7;
+  padding: 14px;
+  background: #f4f4f4;
   color: #222;
 }
 
 h2 {
   text-align: center;
-  margin-bottom: 24px;
+  margin: 12px 0 20px;
+  font-size: 20px;
 }
 
 section {
   background: #fff;
-  padding: 16px;
-  margin-bottom: 16px;
-  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 14px;
+  border-radius: 14px;
 }
 
 h3 {
-  margin-top: 0;
-  font-size: 16px;
+  margin: 0 0 10px;
+  font-size: 15px;
+}
+
+/* Input */
+label {
+  font-size: 13px;
 }
 
 input, select {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-top: 6px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-}
-
-label {
-  font-size: 14px;
-}
-
-button {
-  padding: 10px 14px;
   border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+/* Radio paket */
+section input[type="radio"] {
+  transform: scale(1.2);
+  margin-right: 6px;
+}
+
+/* Ruangan buttons */
+.room-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.room-buttons button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
   border: none;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-button:active {
-  transform: scale(0.97);
-}
-
-/* Ruangan */
-section button {
-  margin-right: 8px;
-  margin-top: 8px;
   background: #eee;
+  font-size: 14px;
+}
+
+/* Active room (nanti dipakai JS) */
+.room-buttons button.active {
+  background: #1e88e5;
+  color: #fff;
+}
+
+/* Denah meja */
+#table-map {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.table {
+  height: 60px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  background: #ddd;
 }
 
 /* Submit */
 #btnSubmit {
   width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  border-radius: 14px;
+  border: none;
   background: #1e88e5;
   color: #fff;
-  font-size: 16px;
-  padding: 14px;
 }
+
