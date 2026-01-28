@@ -260,3 +260,59 @@ section input[type="radio"] {
   min-height: 56px;
   margin-top: 12px;
 }
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.hidden { display: none; }
+
+.modal-content {
+  background: #fff;
+  width: 90%;
+  max-width: 360px;
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.total {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 6px 0 10px;
+}
+
+.qris-img {
+  width: 220px;
+  margin: 10px auto;
+  display: block;
+}
+
+.instruksi {
+  font-size: 13px;
+  text-align: left;
+  margin: 10px 0;
+}
+
+.btn-wa {
+  display: block;
+  padding: 12px;
+  background: #25d366;
+  color: #fff;
+  border-radius: 10px;
+  text-decoration: none;
+  margin-top: 12px;
+}
+
+.btn-close {
+  margin-top: 8px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+}
