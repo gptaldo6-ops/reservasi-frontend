@@ -1,31 +1,3 @@
-const paketRadios = document.querySelectorAll('input[name="paket"]');
-const paketDetailBox = document.getElementById("paket-detail");
-
-paketRadios.forEach(radio => {
-  radio.addEventListener("change", () => {
-    paketDetailBox.style.display = "block";
-  });
-});
-
-const paketCards = document.querySelectorAll(".paket-card");
-
-paketCards.forEach(card => {
-  let qty = 0;
-  const qtySpan = card.querySelector(".qty");
-  const btnPlus = card.querySelector(".btn-plus");
-  const btnMinus = card.querySelector(".btn-minus");
-
-  btnPlus.addEventListener("click", () => {
-    qty++;
-    qtySpan.textContent = qty;
-  });
-
-  btnMinus.addEventListener("click", () => {
-    if (qty > 0) qty--;
-    qtySpan.textContent = qty;
-  });
-});
-
 document.querySelectorAll(".paket-card").forEach(card => {
   const capacity = parseInt(card.dataset.capacity, 10);
 
@@ -37,13 +9,17 @@ document.querySelectorAll(".paket-card").forEach(card => {
 
   let paketQty = 0;
 
-  function updateVariantsState() {
-    const maxVariant = paketQty * capacity;
-    let totalVariant = 0;
-
+  function getTotalVariant() {
+    let total = 0;
     variants.forEach(v => {
-      totalVariant += parseInt(v.querySelector(".variant-qty").textContent, 10);
+      total += parseInt(v.querySelector(".variant-qty").textContent, 10);
     });
+    return total;
+  }
+
+  function updateVariantUI() {
+    const maxVariant = paketQty * capacity;
+    const totalVariant = getTotalVariant();
 
     variants.forEach(v => {
       const plus = v.querySelector(".variant-plus");
@@ -61,10 +37,11 @@ document.querySelectorAll(".paket-card").forEach(card => {
     });
   }
 
+  // ✅ PAKET PLUS (INI HARUS SELALU BISA DIKLIK)
   paketPlus.addEventListener("click", () => {
     paketQty++;
     paketQtyEl.textContent = paketQty;
-    updateVariantsState();
+    updateVariantUI();
   });
 
   paketMinus.addEventListener("click", () => {
@@ -72,37 +49,34 @@ document.querySelectorAll(".paket-card").forEach(card => {
     paketQtyEl.textContent = paketQty;
 
     if (paketQty === 0) {
-      variants.forEach(v => v.querySelector(".variant-qty").textContent = 0);
+      variants.forEach(v => {
+        v.querySelector(".variant-qty").textContent = 0;
+      });
     }
 
-    updateVariantsState();
+    updateVariantUI();
   });
 
+  // VARIANT
   variants.forEach(v => {
-    let vQty = 0;
     const vQtyEl = v.querySelector(".variant-qty");
 
     v.querySelector(".variant-plus").addEventListener("click", () => {
       const max = paketQty * capacity;
-      const currentTotal = [...variants].reduce(
-        (sum, x) => sum + parseInt(x.querySelector(".variant-qty").textContent, 10),
-        0
-      );
-      if (currentTotal < max) {
-        vQty++;
-        vQtyEl.textContent = vQty;
-        updateVariantsState();
+      if (getTotalVariant() < max) {
+        vQtyEl.textContent = parseInt(vQtyEl.textContent, 10) + 1;
+        updateVariantUI();
       }
     });
 
     v.querySelector(".variant-minus").addEventListener("click", () => {
-      if (vQty > 0) vQty--;
-      vQtyEl.textContent = vQty;
-      updateVariantsState();
+      const current = parseInt(vQtyEl.textContent, 10);
+      if (current > 0) {
+        vQtyEl.textContent = current - 1;
+        updateVariantUI();
+      }
     });
   });
 
-  updateVariantsState();
+  updateVariantUI();
 });
-
-
