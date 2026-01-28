@@ -196,9 +196,10 @@ function loadTableStatus(tanggal) {
 
 const tanggalInput = document.getElementById("tanggal");
 if (tanggalInput) {
-  tanggalInput.addEventListener("change", e =>
-    eStatus(e.target.value)
-  );
+ tanggalInput.addEventListener("change", e =>
+  loadTableStatus(e.target.value)
+);
+
 }
 
 function collectPaketData() {
@@ -289,4 +290,5 @@ if (btnSubmit) {
     }
   };
 }
+
 
