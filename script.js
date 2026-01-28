@@ -234,35 +234,7 @@ function collectPaketData() {
 ========================= */
 const btnSubmit = document.getElementById("btnSubmit");
 if (btnSubmit) {
-  btnSubmit.onclick = async () => {
-    const nama = document.getElementById("nama")?.value.trim();
-    const whatsapp = document.getElementById("whatsapp")?.value.trim();
-    const tanggal = document.getElementById("tanggal")?.value;
-
-    if (!nama || !whatsapp || !tanggal || !selectedTable) {
-      alert("Lengkapi data dan pilih meja");
-      return;
-    }
-
-    const paket = collectPaketData();
-    if (paket.length === 0) {
-      alert("Pilih minimal satu paket");
-      return;
-    }
-
-    const payload = {
-      nama,
-      whatsapp,
-      tanggal,
-      tableId: selectedTable,
-      paket
-    };
-
-    const statusEl = document.getElementById("submitStatus");
-    if (statusEl) statusEl.innerText = "Menyimpan reservasi...";
-
-    try {
-     btnSubmit.onclick = () => {
+ btnSubmit.onclick = () => {
   const nama = document.getElementById("nama").value.trim();
   const whatsapp = document.getElementById("whatsapp").value.trim();
   const tanggal = document.getElementById("tanggal").value;
@@ -281,7 +253,6 @@ if (btnSubmit) {
   const form = document.createElement("form");
   form.method = "POST";
   form.action = API_URL;
-  form.target = "_blank"; // bisa dihapus kalau tidak mau tab baru
 
   function add(name, value) {
     const input = document.createElement("input");
@@ -301,6 +272,7 @@ if (btnSubmit) {
   form.submit();
   form.remove();
 };
+
 
 
       const result = await res.json();
@@ -323,6 +295,7 @@ if (btnSubmit) {
     }
   };
 }
+
 
 
 
