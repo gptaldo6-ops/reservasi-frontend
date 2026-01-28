@@ -302,6 +302,16 @@ function closePayment() {
     .classList.add("hidden");
 }
 
+showPaymentPopup({
+  resvId: "R-TEST-01",
+  nama,
+  tanggal,
+  meja: selectedTable,
+  total: 150000
+});
+
+
+
 
 
 
