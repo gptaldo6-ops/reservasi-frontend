@@ -229,3 +229,10 @@ section input[type="radio"] {
   width: 120px;
   height: 45px;
 }
+
+.meja {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
