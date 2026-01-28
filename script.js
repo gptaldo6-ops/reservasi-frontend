@@ -94,20 +94,27 @@ document.querySelectorAll(".paket-card").forEach(card => {
   variants.forEach(v => {
     const vQty = v.querySelector(".variant-qty");
     v.querySelector(".variant-plus").onclick = () => {
-      if (totalVariant() < paketQty * capacity) {
-        vQty.innerText = parseInt(vQty.innerText) + 1;
-        refreshVariantUI();
-        updateSummary();
-      }
-    };
-    v.querySelector(".variant-minus").onclick = () => {
-      if (parseInt(vQty.innerText) > 0) {
-        vQty.innerText = parseInt(vQty.innerText) - 1;
-        refreshVariantUI();
-        updateSummary();
-      }
-    };
-  });
+  if (totalVariant() < paketQty * capacity) {
+    vQty.innerText = parseInt(vQty.innerText) + 1;
+    v.classList.add("selected");   // ⬅️ INI
+    refreshVariantUI();
+    updateSummary();
+  }
+};
+
+   v.querySelector(".variant-minus").onclick = () => {
+  const val = parseInt(vQty.innerText);
+  if (val > 0) {
+    vQty.innerText = val - 1;
+
+    if (val - 1 === 0) {
+      v.classList.remove("selected"); // ⬅️ INI
+    }
+
+    refreshVariantUI();
+    updateSummary();
+  }
+};
 
   refreshVariantUI();
 });
@@ -136,3 +143,4 @@ document.querySelectorAll(".meja").forEach(m => {
 document.getElementById("btnSubmit").onclick = () => {
   alert("TOMBOL RESERVASI BISA DIKLIK ✔");
 };
+
