@@ -40,54 +40,107 @@
   <h3>Pilih Paket</h3>
 
   <!-- Paket A -->
-  <div class="paket-card" data-paket="A">
+  <div class="paket-card" data-paket="A" data-capacity="2">
     <div class="paket-header">
-      <strong>Paket A</strong>
-
+      <strong>Paket A (2 orang)</strong>
       <div class="qty-control">
-        <button type="button" class="btn-minus">−</button>
-        <span class="qty">0</span>
-        <button type="button" class="btn-plus">+</button>
+        <button type="button" class="paket-minus">−</button>
+        <span class="paket-qty">0</span>
+        <button type="button" class="paket-plus">+</button>
       </div>
     </div>
 
     <div class="variant-list">
-      <label>
-        <input type="checkbox" value="variant-1" />
-        Variant 1
-      </label><br />
-      <label>
-        <input type="checkbox" value="variant-2" />
-        Variant 2
-      </label>
+      <div class="variant" data-variant="A1">
+        Variant A1
+        <div class="qty-control">
+          <button type="button" class="variant-minus">−</button>
+          <span class="variant-qty">0</span>
+          <button type="button" class="variant-plus">+</button>
+        </div>
+      </div>
+
+      <div class="variant" data-variant="A2">
+        Variant A2
+        <div class="qty-control">
+          <button type="button" class="variant-minus">−</button>
+          <span class="variant-qty">0</span>
+          <button type="button" class="variant-plus">+</button>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Paket B -->
-  <div class="paket-card" data-paket="B">
+  <div class="paket-card" data-paket="B" data-capacity="4">
     <div class="paket-header">
-      <strong>Paket B</strong>
-
+      <strong>Paket B (4 orang)</strong>
       <div class="qty-control">
-        <button type="button" class="btn-minus">−</button>
-        <span class="qty">0</span>
-        <button type="button" class="btn-plus">+</button>
+        <button type="button" class="paket-minus">−</button>
+        <span class="paket-qty">0</span>
+        <button type="button" class="paket-plus">+</button>
       </div>
     </div>
 
     <div class="variant-list">
-      <label>
-        <input type="checkbox" value="variant-x" />
-        Variant X
-      </label><br />
-      <label>
-        <input type="checkbox" value="variant-y" />
-        Variant Y
-      </label>
+      <div class="variant" data-variant="B1">
+        Variant B1
+        <div class="qty-control">
+          <button type="button" class="variant-minus">−</button>
+          <span class="variant-qty">0</span>
+          <button type="button" class="variant-plus">+</button>
+        </div>
+      </div>
     </div>
   </div>
 
+  <!-- Paket C -->
+  <div class="paket-card" data-paket="C" data-capacity="1">
+    <div class="paket-header">
+      <strong>Paket C (1 orang)</strong>
+      <div class="qty-control">
+        <button type="button" class="paket-minus">−</button>
+        <span class="paket-qty">0</span>
+        <button type="button" class="paket-plus">+</button>
+      </div>
+    </div>
+
+    <div class="variant-list">
+      <div class="variant" data-variant="C1">
+        Variant C1
+        <div class="qty-control">
+          <button type="button" class="variant-minus">−</button>
+          <span class="variant-qty">0</span>
+          <button type="button" class="variant-plus">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paket D -->
+  <div class="paket-card" data-paket="D" data-capacity="1">
+    <div class="paket-header">
+      <strong>Paket D (1 orang)</strong>
+      <div class="qty-control">
+        <button type="button" class="paket-minus">−</button>
+        <span class="paket-qty">0</span>
+        <button type="button" class="paket-plus">+</button>
+      </div>
+    </div>
+
+    <div class="variant-list">
+      <div class="variant" data-variant="D1">
+        Variant D1
+        <div class="qty-control">
+          <button type="button" class="variant-minus">−</button>
+          <span class="variant-qty">0</span>
+          <button type="button" class="variant-plus">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
+
 
 
 <hr />
@@ -128,6 +181,7 @@
 
 </body>
 </html>
+
 
 
 
