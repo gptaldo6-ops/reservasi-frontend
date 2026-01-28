@@ -170,34 +170,34 @@ document.querySelectorAll(".meja").forEach(m => {
 const API_URL =
   "https://script.google.com/macros/s/AKfycbwFU-fHZR5lphEAX0R-I_BvKQx5H1MtCBxgfQU7s6Xnc-RYgx3UZX61RY7eXshk3EX0Sw/exec";
 
-async function loadTableStatus(tanggal) {
+function loadTableStatus(tanggal) {
   if (!tanggal) return;
 
-  try {
-    const res = await fetch(
-      `${API_URL}?action=getTableStatus&tanggal=${tanggal}`
-    );
-    const status = await res.json();
+  const callbackName = "cb_" + Date.now();
 
+  window[callbackName] = function (status) {
     document.querySelectorAll(".meja").forEach(m => {
       m.classList.remove("available", "full", "selected");
       m.classList.add(status[m.dataset.id] === "FULL" ? "full" : "available");
     });
 
-    selectedTable = null;
-    const info = document.getElementById("mejaTerpilih");
-    if (info) info.innerText = "";
+    delete window[callbackName];
+    script.remove();
+  };
 
-  } catch (e) {
-    console.error(e);
-    alert("Gagal mengambil status meja");
-  }
+  const script = document.createElement("script");
+  script.src =
+    API_URL +
+    `?action=getTableStatus&tanggal=${tanggal}&callback=${callbackName}`;
+
+  document.body.appendChild(script);
 }
+
 
 const tanggalInput = document.getElementById("tanggal");
 if (tanggalInput) {
   tanggalInput.addEventListener("change", e =>
-    loadTableStatus(e.target.value)
+    eStatus(e.target.value)
   );
 }
 
@@ -289,3 +289,4 @@ if (btnSubmit) {
     }
   };
 }
+
