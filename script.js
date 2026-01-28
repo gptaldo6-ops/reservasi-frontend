@@ -9,19 +9,24 @@ function updateSummary() {
 
   document.querySelectorAll(".paket-card").forEach(card => {
     const paket = card.dataset.paket;
-    const qty = parseInt(card.querySelector(".paket-qty").textContent, 10);
+    const qtyEl = card.querySelector(".paket-qty");
+    if (!qtyEl) return;
 
-    if (qty > 0) {
-      const variants = [];
-      card.querySelectorAll(".variant").forEach(v => {
-        const vQty = parseInt(v.querySelector(".variant-qty").textContent, 10);
-        if (vQty > 0) {
-          variants.push(`${v.dataset.variant} × ${vQty}`);
-        }
-      });
+    const qty = parseInt(qtyEl.textContent, 10);
+    if (qty <= 0) return;
 
-      data.push({ paket, qty, variants });
-    }
+    const variants = [];
+    card.querySelectorAll(".variant").forEach(v => {
+      const vQtyEl = v.querySelector(".variant-qty");
+      if (!vQtyEl) return;
+
+      const vQty = parseInt(vQtyEl.textContent, 10);
+      if (vQty > 0) {
+        variants.push(`${v.dataset.variant} × ${vQty}`);
+      }
+    });
+
+    data.push({ paket, qty, variants });
   });
 
   if (data.length === 0) {
@@ -32,10 +37,13 @@ function updateSummary() {
   summaryEl.innerHTML = data.map(d => `
     <div style="margin-bottom:10px">
       <strong>Paket ${d.paket} × ${d.qty}</strong><br/>
-      ${d.variants.length ? d.variants.join("<br/>") : "<em>Belum pilih variant</em>"}
+      ${d.variants.length
+        ? d.variants.join("<br/>")
+        : "<em>Belum pilih variant</em>"}
     </div>
   `).join("");
 }
+
 
 /* =====================
    PAKET & VARIANT
@@ -245,3 +253,4 @@ if (btnSubmit) {
     }
   });
 }
+
