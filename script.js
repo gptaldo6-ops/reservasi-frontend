@@ -1,9 +1,40 @@
 const summaryEl = document.getElementById("order-summary");
 
-document.querySelectorAll(".paket-card").forEach(card => {
-  const paketKode = card.dataset.paket;
-  const capacity = parseInt(card.dataset.capacity, 10);
+function updateSummary() {
+  const data = [];
 
+  document.querySelectorAll(".paket-card").forEach(card => {
+    const paket = card.dataset.paket;
+    const qty = parseInt(card.querySelector(".paket-qty").textContent, 10);
+
+    if (qty > 0) {
+      const variants = [];
+      card.querySelectorAll(".variant").forEach(v => {
+        const vQty = parseInt(v.querySelector(".variant-qty").textContent, 10);
+        if (vQty > 0) {
+          variants.push(`${v.dataset.variant} × ${vQty}`);
+        }
+      });
+
+      data.push({ paket, qty, variants });
+    }
+  });
+
+  if (data.length === 0) {
+    summaryEl.innerHTML = "<p>Belum ada paket dipilih</p>";
+    return;
+  }
+
+  summaryEl.innerHTML = data.map(d => `
+    <div style="margin-bottom:10px">
+      <strong>Paket ${d.paket} × ${d.qty}</strong><br/>
+      ${d.variants.length ? d.variants.join("<br/>") : "<em>Belum pilih variant</em>"}
+    </div>
+  `).join("");
+}
+
+document.querySelectorAll(".paket-card").forEach(card => {
+  const capacity = parseInt(card.dataset.capacity, 10);
   const paketQtyEl = card.querySelector(".paket-qty");
   const paketPlus = card.querySelector(".paket-plus");
   const paketMinus = card.querySelector(".paket-minus");
@@ -20,8 +51,8 @@ document.querySelectorAll(".paket-card").forEach(card => {
   }
 
   function updateVariantUI() {
-    const maxVariant = paketQty * capacity;
-    const totalVariant = getTotalVariant();
+    const max = paketQty * capacity;
+    const total = getTotalVariant();
 
     variants.forEach(v => {
       const plus = v.querySelector(".variant-plus");
@@ -34,17 +65,16 @@ document.querySelectorAll(".paket-card").forEach(card => {
       } else {
         v.classList.add("active");
         minus.disabled = false;
-        plus.disabled = totalVariant >= maxVariant;
+        plus.disabled = total >= max;
       }
     });
-
-    updateSummary();
   }
 
   paketPlus.addEventListener("click", () => {
     paketQty++;
     paketQtyEl.textContent = paketQty;
     updateVariantUI();
+    updateSummary(); // ✅ WAJIB
   });
 
   paketMinus.addEventListener("click", () => {
@@ -56,63 +86,31 @@ document.querySelectorAll(".paket-card").forEach(card => {
     }
 
     updateVariantUI();
+    updateSummary(); // ✅ WAJIB
   });
 
   variants.forEach(v => {
     const vQtyEl = v.querySelector(".variant-qty");
 
     v.querySelector(".variant-plus").addEventListener("click", () => {
-      const max = paketQty * capacity;
-      if (getTotalVariant() < max) {
+      if (getTotalVariant() < paketQty * capacity) {
         vQtyEl.textContent = parseInt(vQtyEl.textContent, 10) + 1;
         updateVariantUI();
+        updateSummary(); // ✅ WAJIB
       }
     });
 
     v.querySelector(".variant-minus").addEventListener("click", () => {
-      const current = parseInt(vQtyEl.textContent, 10);
-      if (current > 0) {
-        vQtyEl.textContent = current - 1;
+      const val = parseInt(vQtyEl.textContent, 10);
+      if (val > 0) {
+        vQtyEl.textContent = val - 1;
         updateVariantUI();
+        updateSummary(); // ✅ WAJIB
       }
     });
   });
 
-  function updateSummary() {
-    const data = [];
-
-    document.querySelectorAll(".paket-card").forEach(c => {
-      const kode = c.dataset.paket;
-      const qty = parseInt(c.querySelector(".paket-qty").textContent, 10);
-      if (qty > 0) {
-        const items = [];
-        c.querySelectorAll(".variant").forEach(v => {
-          const vQty = parseInt(v.querySelector(".variant-qty").textContent, 10);
-          if (vQty > 0) {
-            items.push(`${v.dataset.variant} × ${vQty}`);
-          }
-        });
-
-        data.push({
-          paket: kode,
-          qty,
-          items
-        });
-      }
-    });
-
-    if (data.length === 0) {
-      summaryEl.innerHTML = "<p>Belum ada paket dipilih</p>";
-      return;
-    }
-
-    summaryEl.innerHTML = data.map(d => `
-      <div style="margin-bottom:8px">
-        <strong>Paket ${d.paket} × ${d.qty}</strong><br/>
-        ${d.items.length ? d.items.join("<br/>") : "<em>Belum pilih variant</em>"}
-      </div>
-    `).join("");
-  }
-
   updateVariantUI();
 });
+
+updateSummary(); // initial
