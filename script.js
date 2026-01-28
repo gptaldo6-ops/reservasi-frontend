@@ -87,3 +87,53 @@ document.querySelectorAll(".paket-card").forEach(card => {
     });
   }
 
+  const roomButtons = document.querySelectorAll(".room-buttons button");
+const tableMap = document.getElementById("table-map");
+
+roomButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    // aktifkan tombol ruangan
+    roomButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    selectedRoom = btn.dataset.room;
+    selectedTable = null;
+
+    renderTables();
+    updateSummary(); // ringkasan ikut update
+  });
+});
+
+function renderTables() {
+  tableMap.innerHTML = "";
+
+  if (!selectedRoom) return;
+
+  ROOM_TABLES[selectedRoom].forEach(tableId => {
+    const div = document.createElement("div");
+    div.classList.add("table");
+
+    const status = tableStatus[tableId] || "AVAILABLE";
+    div.textContent = tableId;
+
+    if (status === "FULL") {
+      div.classList.add("full");
+    } else {
+      div.classList.add("available");
+
+      div.addEventListener("click", () => {
+        document.querySelectorAll(".table").forEach(t =>
+          t.classList.remove("selected")
+        );
+        div.classList.add("selected");
+        selectedTable = tableId;
+        updateSummary();
+      });
+    }
+
+    tableMap.appendChild(div);
+  });
+}
+
+
+
