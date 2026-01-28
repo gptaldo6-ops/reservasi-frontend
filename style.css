@@ -242,3 +242,20 @@ section input[type="radio"] {
     max-width: 480px;
   }
 }
+
+/* =====================
+   MEJA TENGAH
+===================== */
+
+/* Tengah utama → vertikal & agak mundur */
+.meja.tengah-utama {
+  min-height: 110px;        /* memanjang vertikal */
+  margin-top: 12px;         /* mundur ke bawah */
+}
+
+/* Tengah belakang → horizontal & lebih mundur */
+.meja.tengah-belakang {
+  min-height: 56px;
+  margin-top: 18px;         /* lebih mundur */
+  width: 100%;              /* penuh kolom */
+}
