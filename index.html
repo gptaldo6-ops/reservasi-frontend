@@ -39,31 +39,56 @@
 <section>
   <h3>Pilih Paket</h3>
 
-  <label>
-    <input type="radio" name="paket" value="A" />
-    Paket A
-  </label><br />
+  <!-- Paket A -->
+  <div class="paket-card" data-paket="A">
+    <div class="paket-header">
+      <strong>Paket A</strong>
 
-  <label>
-    <input type="radio" name="paket" value="B" />
-    Paket B
-  </label><br />
+      <div class="qty-control">
+        <button type="button" class="btn-minus">−</button>
+        <span class="qty">0</span>
+        <button type="button" class="btn-plus">+</button>
+      </div>
+    </div>
 
-  <label>
-    <input type="radio" name="paket" value="C" />
-    Paket C
-  </label>
-
-  <!-- sub-pilihan (nanti diaktifkan dengan JS) -->
-  <div id="paket-detail" style="margin-top:10px; display:none;">
-    <strong>Detail Paket</strong><br />
-    <select id="paketDetail">
-      <option value="">-- pilih --</option>
-      <option value="opsi1">Opsi 1</option>
-      <option value="opsi2">Opsi 2</option>
-    </select>
+    <div class="variant-list">
+      <label>
+        <input type="checkbox" value="variant-1" />
+        Variant 1
+      </label><br />
+      <label>
+        <input type="checkbox" value="variant-2" />
+        Variant 2
+      </label>
+    </div>
   </div>
+
+  <!-- Paket B -->
+  <div class="paket-card" data-paket="B">
+    <div class="paket-header">
+      <strong>Paket B</strong>
+
+      <div class="qty-control">
+        <button type="button" class="btn-minus">−</button>
+        <span class="qty">0</span>
+        <button type="button" class="btn-plus">+</button>
+      </div>
+    </div>
+
+    <div class="variant-list">
+      <label>
+        <input type="checkbox" value="variant-x" />
+        Variant X
+      </label><br />
+      <label>
+        <input type="checkbox" value="variant-y" />
+        Variant Y
+      </label>
+    </div>
+  </div>
+
 </section>
+
 
 <hr />
 
@@ -103,6 +128,7 @@
 
 </body>
 </html>
+
 
 
 
