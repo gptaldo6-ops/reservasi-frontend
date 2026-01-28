@@ -148,4 +148,112 @@ document.querySelectorAll(".meja").forEach(m => {
   m.classList.add(dummyStatus[id] === "FULL" ? "full" : "available");
 });
 
+const API_URL = "https://script.google.com/macros/s/AKfycbwFU-fHZR5lphEAX0R-I_BvKQx5H1MtCBxgfQU7s6Xnc-RYgx3UZX61RY7eXshk3EX0Sw/exec";
+
+async function loadTableStatus(tanggal) {
+  if (!tanggal) return;
+
+  try {
+    const res = await fetch(`${API_URL}?action=getTableStatus&tanggal=${tanggal}`);
+    const status = await res.json();
+
+    document.querySelectorAll(".meja").forEach(m => {
+      const id = m.dataset.id;
+      m.classList.remove("available", "full", "selected");
+
+      if (status[id] === "FULL") {
+        m.classList.add("full");
+      } else {
+        m.classList.add("available");
+      }
+    });
+
+    selectedTable = null;
+    document.getElementById("mejaTerpilih").innerText = "";
+
+  } catch (err) {
+    alert("Gagal mengambil status meja");
+    console.error(err);
+  }
+}
+
+document.getElementById("tanggal").addEventListener("change", (e) => {
+  loadTableStatus(e.target.value);
+});
+
+function collectPaketData() {
+  const result = [];
+
+  document.querySelectorAll(".paket-card").forEach(card => {
+    const paket = card.dataset.paket;
+    const qty = parseInt(card.querySelector(".paket-qty").textContent, 10);
+    if (qty > 0) {
+      const variants = [];
+      card.querySelectorAll(".variant").forEach(v => {
+        const vQty = parseInt(v.querySelector(".variant-qty").textContent, 10);
+        if (vQty > 0) {
+          variants.push({
+            code: v.dataset.variant,
+            qty: vQty
+          });
+        }
+      });
+
+      result.push({ paket, qty, variants });
+    }
+  });
+
+  return result;
+}
+
+document.getElementById("btnSubmit").addEventListener("click", async () => {
+  const nama = document.getElementById("nama").value.trim();
+  const whatsapp = document.getElementById("whatsapp").value.trim();
+  const tanggal = document.getElementById("tanggal").value;
+
+  if (!nama || !whatsapp || !tanggal || !selectedTable) {
+    alert("Lengkapi data dan pilih meja");
+    return;
+  }
+
+  const paket = collectPaketData();
+  if (paket.length === 0) {
+    alert("Pilih minimal satu paket");
+    return;
+  }
+
+  const payload = {
+    nama,
+    whatsapp,
+    tanggal,
+    tableId: selectedTable,
+    paket
+  };
+
+  document.getElementById("submitStatus").innerText = "Menyimpan reservasi...";
+
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      document.getElementById("submitStatus").innerText =
+        "Reservasi berhasil! Kode: " + result.resvId;
+    } else {
+      document.getElementById("submitStatus").innerText =
+        "Gagal: " + result.message;
+    }
+
+  } catch (err) {
+    document.getElementById("submitStatus").innerText = "Error koneksi server";
+    console.error(err);
+  }
+});
+
+
+
 
