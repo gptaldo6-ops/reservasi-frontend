@@ -114,3 +114,38 @@ document.querySelectorAll(".paket-card").forEach(card => {
 });
 
 updateSummary(); // initial
+
+let selectedTable = null;
+
+document.querySelectorAll(".meja").forEach(meja => {
+  meja.addEventListener("click", () => {
+    if (meja.classList.contains("full")) return;
+
+    document.querySelectorAll(".meja")
+      .forEach(m => m.classList.remove("selected"));
+
+    meja.classList.add("selected");
+    selectedTable = meja.dataset.id;
+
+    document.getElementById("mejaTerpilih").innerText =
+      "Meja terpilih: " + selectedTable;
+  });
+});
+
+const dummyStatus = {
+  "KANAN-1": "FULL",
+  "KANAN-2": "AVAILABLE",
+  "KANAN-3": "AVAILABLE",
+  "KIRI-1": "FULL",
+  "KIRI-2": "AVAILABLE",
+  "KIRI-3": "AVAILABLE",
+  "TENGAH": "AVAILABLE",
+  "TENGAH-BELAKANG": "FULL"
+};
+
+document.querySelectorAll(".meja").forEach(m => {
+  const id = m.dataset.id;
+  m.classList.add(dummyStatus[id] === "FULL" ? "full" : "available");
+});
+
+
