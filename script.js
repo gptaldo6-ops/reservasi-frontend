@@ -130,9 +130,5 @@ document.querySelectorAll(".meja").forEach(m => {
   };
 });
 
-/* ======================
-   SUBMIT
-====================== */
-document.getElementById("btnSubmit").onclick = () => {
-  alert("TOMBOL RESERVASI BISA DIKLIK ✔");
-};
+
+
