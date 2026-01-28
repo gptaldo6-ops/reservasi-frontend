@@ -1,6 +1,9 @@
 const summaryEl = document.getElementById("order-summary");
 
 function updateSummary() {
+  const summaryEl = document.getElementById("order-summary");
+  if (!summaryEl) return; // ⬅️ PENTING
+
   const data = [];
 
   document.querySelectorAll(".paket-card").forEach(card => {
@@ -19,6 +22,20 @@ function updateSummary() {
       data.push({ paket, qty, variants });
     }
   });
+
+  if (data.length === 0) {
+    summaryEl.innerHTML = "<p>Belum ada paket dipilih</p>";
+    return;
+  }
+
+  summaryEl.innerHTML = data.map(d => `
+    <div>
+      <strong>Paket ${d.paket} × ${d.qty}</strong><br/>
+      ${d.variants.length ? d.variants.join("<br/>") : "<em>Belum pilih variant</em>"}
+    </div>
+  `).join("");
+}
+
 
   if (data.length === 0) {
     summaryEl.innerHTML = "<p>Belum ada paket dipilih</p>";
@@ -253,6 +270,7 @@ document.getElementById("btnSubmit").addEventListener("click", async () => {
     console.error(err);
   }
 });
+
 
 
 
