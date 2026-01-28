@@ -1,76 +1,9 @@
-document.addEventListener("click", e => {
-  if (e.target.tagName === "BUTTON") {
-    console.log("BUTTON CLICKED:", e.target.className);
-  }
-});
-
-
-const ROOM_TABLES = {
-  R1: ["R1-A1", "R1-A2", "R1-A3", "R1-A4"],
-  R2: ["R2-B1", "R2-B2", "R2-B3"],
-  R3: ["R3-C1", "R3-C2", "R3-C3", "R3-C4", "R3-C5"]
-};
-
-let selectedRoom = null;
-let selectedTable = null;
-
-// dummy status (nanti dari backend)
-let tableStatus = {
-  "R1-A2": "FULL",
-  "R2-B3": "FULL",
-  "R3-C1": "FULL"
-};
-
-
 const summaryEl = document.getElementById("order-summary");
 
-function updateSummary() {
-  const data = [];
-
-  document.querySelectorAll(".paket-card").forEach(card => {
-    const paket = card.dataset.paket;
-    const qty = parseInt(card.querySelector(".paket-qty").textContent, 10);
-
-    if (qty > 0) {
-      const variants = [];
-      card.querySelectorAll(".variant").forEach(v => {
-        const vQty = parseInt(v.querySelector(".variant-qty").textContent, 10);
-        if (vQty > 0) {
-          variants.push(`${v.dataset.variant} × ${vQty}`);
-        }
-      });
-
-      data.push({ paket, qty, variants });
-    }
-  });
-
-  if (data.length === 0) {
-    summaryEl.innerHTML = "<p>Belum ada paket dipilih</p>";
-    return;
-  }
-
-  let html = data.map(d => `
-    <div style="margin-bottom:10px">
-      <strong>Paket ${d.paket} × ${d.qty}</strong><br/>
-      ${d.variants.length ? d.variants.join("<br/>") : "<em>Belum pilih variant</em>"}
-    </div>
-  `).join("");
-
-  // 🔵 INI BAGIAN BARU (LANGKAH 5)
-  if (selectedRoom) {
-    html += `<div><strong>Ruangan:</strong> ${selectedRoom}</div>`;
-  }
-
-  if (selectedTable) {
-    html += `<div><strong>Meja:</strong> ${selectedTable}</div>`;
-  }
-
-  summaryEl.innerHTML = html;
-}
-
-
 document.querySelectorAll(".paket-card").forEach(card => {
+  const paketKode = card.dataset.paket;
   const capacity = parseInt(card.dataset.capacity, 10);
+
   const paketQtyEl = card.querySelector(".paket-qty");
   const paketPlus = card.querySelector(".paket-plus");
   const paketMinus = card.querySelector(".paket-minus");
@@ -87,8 +20,8 @@ document.querySelectorAll(".paket-card").forEach(card => {
   }
 
   function updateVariantUI() {
-    const max = paketQty * capacity;
-    const total = getTotalVariant();
+    const maxVariant = paketQty * capacity;
+    const totalVariant = getTotalVariant();
 
     variants.forEach(v => {
       const plus = v.querySelector(".variant-plus");
@@ -101,60 +34,85 @@ document.querySelectorAll(".paket-card").forEach(card => {
       } else {
         v.classList.add("active");
         minus.disabled = false;
-        plus.disabled = total >= max;
+        plus.disabled = totalVariant >= maxVariant;
       }
     });
+
+    updateSummary();
   }
 
-  const roomButtons = document.querySelectorAll(".room-buttons button");
-const tableMap = document.getElementById("table-map");
-
-roomButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    // aktifkan tombol ruangan
-    roomButtons.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-
-    selectedRoom = btn.dataset.room;
-    selectedTable = null;
-
-    renderTables();
-    updateSummary(); // ringkasan ikut update
+  paketPlus.addEventListener("click", () => {
+    paketQty++;
+    paketQtyEl.textContent = paketQty;
+    updateVariantUI();
   });
-});
 
-function renderTables() {
-  tableMap.innerHTML = "";
+  paketMinus.addEventListener("click", () => {
+    if (paketQty > 0) paketQty--;
+    paketQtyEl.textContent = paketQty;
 
-  if (!selectedRoom) return;
-
-  ROOM_TABLES[selectedRoom].forEach(tableId => {
-    const div = document.createElement("div");
-    div.classList.add("table");
-
-    const status = tableStatus[tableId] || "AVAILABLE";
-    div.textContent = tableId;
-
-    if (status === "FULL") {
-      div.classList.add("full");
-    } else {
-      div.classList.add("available");
-
-      div.addEventListener("click", () => {
-        document.querySelectorAll(".table").forEach(t =>
-          t.classList.remove("selected")
-        );
-        div.classList.add("selected");
-        selectedTable = tableId;
-        updateSummary();
-      });
+    if (paketQty === 0) {
+      variants.forEach(v => v.querySelector(".variant-qty").textContent = 0);
     }
 
-    tableMap.appendChild(div);
+    updateVariantUI();
   });
-}
 
+  variants.forEach(v => {
+    const vQtyEl = v.querySelector(".variant-qty");
 
+    v.querySelector(".variant-plus").addEventListener("click", () => {
+      const max = paketQty * capacity;
+      if (getTotalVariant() < max) {
+        vQtyEl.textContent = parseInt(vQtyEl.textContent, 10) + 1;
+        updateVariantUI();
+      }
+    });
 
+    v.querySelector(".variant-minus").addEventListener("click", () => {
+      const current = parseInt(vQtyEl.textContent, 10);
+      if (current > 0) {
+        vQtyEl.textContent = current - 1;
+        updateVariantUI();
+      }
+    });
+  });
 
+  function updateSummary() {
+    const data = [];
 
+    document.querySelectorAll(".paket-card").forEach(c => {
+      const kode = c.dataset.paket;
+      const qty = parseInt(c.querySelector(".paket-qty").textContent, 10);
+      if (qty > 0) {
+        const items = [];
+        c.querySelectorAll(".variant").forEach(v => {
+          const vQty = parseInt(v.querySelector(".variant-qty").textContent, 10);
+          if (vQty > 0) {
+            items.push(`${v.dataset.variant} × ${vQty}`);
+          }
+        });
+
+        data.push({
+          paket: kode,
+          qty,
+          items
+        });
+      }
+    });
+
+    if (data.length === 0) {
+      summaryEl.innerHTML = "<p>Belum ada paket dipilih</p>";
+      return;
+    }
+
+    summaryEl.innerHTML = data.map(d => `
+      <div style="margin-bottom:8px">
+        <strong>Paket ${d.paket} × ${d.qty}</strong><br/>
+        ${d.items.length ? d.items.join("<br/>") : "<em>Belum pilih variant</em>"}
+      </div>
+    `).join("");
+  }
+
+  updateVariantUI();
+});
