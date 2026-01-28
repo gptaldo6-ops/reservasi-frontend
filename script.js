@@ -235,24 +235,35 @@ function collectPaketData() {
 ========================= */
 const btnSubmit = document.getElementById("btnSubmit");
 if (btnSubmit) {
- btnSubmit.onclick = () => {
-  const nama = document.getElementById("nama").value.trim();
-  const whatsapp = document.getElementById("whatsapp").value.trim();
-  const tanggal = document.getElementById("tanggal").value;
+  btnSubmit.onclick = () => {
+    const nama = document.getElementById("nama").value.trim();
+    const whatsapp = document.getElementById("whatsapp").value.trim();
+    const tanggal = document.getElementById("tanggal").value;
 
-  if (!nama || !whatsapp || !tanggal || !selectedTable) {
-    alert("Lengkapi data dan pilih meja");
-    return;
+    if (!nama || !whatsapp || !tanggal || !selectedTable) {
+      alert("Lengkapi data dan pilih meja");
+      return;
+    }
 
-     showPaymentPopup({
-  resvId: "R-TEST-01",
-  nama: nama,
-  tanggal: tanggal,
-  meja: selectedTable,
-  total: 150000
-});
+    const paket = collectPaketData();
+    if (paket.length === 0) {
+      alert("Pilih minimal satu paket");
+      return;
+    }
 
-  }
+    // 🔥 PANGGIL POPUP DI SINI (PASTI KEJALAN)
+    showPaymentPopup({
+      resvId: "R-TEST-01",      // nanti ganti ID asli
+      nama: nama,
+      tanggal: tanggal,
+      meja: selectedTable,
+      total: 150000             // nanti ganti hitungan asli
+    });
+
+    // ⛔ sementara JANGAN submit form dulu
+    // supaya fokus ke flow popup
+  };
+}
 
   const paket = collectPaketData();
   if (paket.length === 0) {
@@ -311,6 +322,7 @@ function closePayment() {
   document.getElementById("paymentModal")
     .classList.add("hidden");
 }
+
 
 
 
