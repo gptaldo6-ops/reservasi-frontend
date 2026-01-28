@@ -1,153 +1,138 @@
+console.log("SCRIPT LOADED");
 
-const summaryEl = document.getElementById("order-summary");
+/* ======================
+   STATE
+====================== */
+let selectedTable = null;
 
+/* ======================
+   RINGKASAN
+====================== */
 function updateSummary() {
-  const data = [];
+  const summary = document.getElementById("order-summary");
+  if (!summary) return;
+
+  let html = "";
+  let hasData = false;
 
   document.querySelectorAll(".paket-card").forEach(card => {
     const paket = card.dataset.paket;
-    const qty = parseInt(card.querySelector(".paket-qty").textContent, 10);
+    const qty = parseInt(card.querySelector(".paket-qty")?.innerText || "0");
 
     if (qty > 0) {
-      const variants = [];
+      hasData = true;
+      html += `<strong>Paket ${paket} × ${qty}</strong><br/>`;
+
       card.querySelectorAll(".variant").forEach(v => {
-        const vQty = parseInt(v.querySelector(".variant-qty").textContent, 10);
+        const vQty = parseInt(v.querySelector(".variant-qty")?.innerText || "0");
         if (vQty > 0) {
-          variants.push(`${v.dataset.variant} × ${vQty}`);
+          html += `${v.dataset.variant} × ${vQty}<br/>`;
         }
       });
 
-      data.push({ paket, qty, variants });
+      html += "<hr/>";
     }
   });
 
-  if (data.length === 0) {
-    summaryEl.innerHTML = "<p>Belum ada paket dipilih</p>";
-    return;
-  }
-
-  summaryEl.innerHTML = data.map(d => `
-    <div style="margin-bottom:10px">
-      <strong>Paket ${d.paket} × ${d.qty}</strong><br/>
-      ${d.variants.length ? d.variants.join("<br/>") : "<em>Belum pilih variant</em>"}
-    </div>
-  `).join("");
+  summary.innerHTML = hasData ? html : "<p>Belum ada paket dipilih</p>";
 }
 
+/* ======================
+   PAKET & VARIANT
+====================== */
 document.querySelectorAll(".paket-card").forEach(card => {
-  const capacity = parseInt(card.dataset.capacity, 10);
-  const paketQtyEl = card.querySelector(".paket-qty");
-  const paketPlus = card.querySelector(".paket-plus");
-  const paketMinus = card.querySelector(".paket-minus");
+  const capacity = parseInt(card.dataset.capacity);
+  const qtyEl = card.querySelector(".paket-qty");
+  const plus = card.querySelector(".paket-plus");
+  const minus = card.querySelector(".paket-minus");
   const variants = card.querySelectorAll(".variant");
 
   let paketQty = 0;
 
-  function getTotalVariant() {
-    let total = 0;
+  function totalVariant() {
+    let t = 0;
     variants.forEach(v => {
-      total += parseInt(v.querySelector(".variant-qty").textContent, 10);
+      t += parseInt(v.querySelector(".variant-qty").innerText);
     });
-    return total;
+    return t;
   }
 
-  function updateVariantUI() {
+  function refreshVariantUI() {
     const max = paketQty * capacity;
-    const total = getTotalVariant();
-
     variants.forEach(v => {
-      const plus = v.querySelector(".variant-plus");
-      const minus = v.querySelector(".variant-minus");
-
+      const vp = v.querySelector(".variant-plus");
+      const vm = v.querySelector(".variant-minus");
       if (paketQty === 0) {
-        v.classList.remove("active");
-        plus.disabled = true;
-        minus.disabled = true;
+        vp.disabled = true;
+        vm.disabled = true;
       } else {
-        v.classList.add("active");
-        minus.disabled = false;
-        plus.disabled = total >= max;
+        vm.disabled = false;
+        vp.disabled = totalVariant() >= max;
       }
     });
   }
 
-  paketPlus.addEventListener("click", () => {
+  plus.onclick = () => {
     paketQty++;
-    paketQtyEl.textContent = paketQty;
-    updateVariantUI();
-    updateSummary(); // ✅ WAJIB
-  });
+    qtyEl.innerText = paketQty;
+    refreshVariantUI();
+    updateSummary();
+  };
 
-  paketMinus.addEventListener("click", () => {
+  minus.onclick = () => {
     if (paketQty > 0) paketQty--;
-    paketQtyEl.textContent = paketQty;
+    qtyEl.innerText = paketQty;
 
     if (paketQty === 0) {
-      variants.forEach(v => v.querySelector(".variant-qty").textContent = 0);
+      variants.forEach(v => v.querySelector(".variant-qty").innerText = "0");
     }
 
-    updateVariantUI();
-    updateSummary(); // ✅ WAJIB
-  });
+    refreshVariantUI();
+    updateSummary();
+  };
 
   variants.forEach(v => {
-    const vQtyEl = v.querySelector(".variant-qty");
-
-    v.querySelector(".variant-plus").addEventListener("click", () => {
-      if (getTotalVariant() < paketQty * capacity) {
-        vQtyEl.textContent = parseInt(vQtyEl.textContent, 10) + 1;
-        updateVariantUI();
-        updateSummary(); // ✅ WAJIB
+    const vQty = v.querySelector(".variant-qty");
+    v.querySelector(".variant-plus").onclick = () => {
+      if (totalVariant() < paketQty * capacity) {
+        vQty.innerText = parseInt(vQty.innerText) + 1;
+        refreshVariantUI();
+        updateSummary();
       }
-    });
-
-    v.querySelector(".variant-minus").addEventListener("click", () => {
-      const val = parseInt(vQtyEl.textContent, 10);
-      if (val > 0) {
-        vQtyEl.textContent = val - 1;
-        updateVariantUI();
-        updateSummary(); // ✅ WAJIB
+    };
+    v.querySelector(".variant-minus").onclick = () => {
+      if (parseInt(vQty.innerText) > 0) {
+        vQty.innerText = parseInt(vQty.innerText) - 1;
+        refreshVariantUI();
+        updateSummary();
       }
-    });
+    };
   });
 
-  updateVariantUI();
+  refreshVariantUI();
 });
 
-updateSummary(); // initial
+updateSummary();
 
-let selectedTable = null;
-
-document.querySelectorAll(".meja").forEach(meja => {
-  meja.addEventListener("click", () => {
-    if (meja.classList.contains("full")) return;
-
-    document.querySelectorAll(".meja")
-      .forEach(m => m.classList.remove("selected"));
-
-    meja.classList.add("selected");
-    selectedTable = meja.dataset.id;
-
-    document.getElementById("mejaTerpilih").innerText =
-      "Meja terpilih: " + selectedTable;
-  });
-});
-
-const dummyStatus = {
-  "KANAN-1": "FULL",
-  "KANAN-2": "AVAILABLE",
-  "KANAN-3": "AVAILABLE",
-  "KIRI-1": "FULL",
-  "KIRI-2": "AVAILABLE",
-  "KIRI-3": "AVAILABLE",
-  "TENGAH": "AVAILABLE",
-  "TENGAH-BELAKANG": "FULL"
-};
-
+/* ======================
+   DENAH MEJA
+====================== */
 document.querySelectorAll(".meja").forEach(m => {
-  const id = m.dataset.id;
-  m.classList.add(dummyStatus[id] === "FULL" ? "full" : "available");
+  m.onclick = () => {
+    if (m.classList.contains("full")) return;
+
+    document.querySelectorAll(".meja").forEach(x => x.classList.remove("selected"));
+    m.classList.add("selected");
+    selectedTable = m.dataset.id;
+
+    const info = document.getElementById("mejaTerpilih");
+    if (info) info.innerText = "Meja terpilih: " + selectedTable;
+  };
 });
 
-
-
+/* ======================
+   SUBMIT
+====================== */
+document.getElementById("btnSubmit").onclick = () => {
+  alert("TOMBOL RESERVASI BISA DIKLIK ✔");
+};
