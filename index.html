@@ -3,14 +3,97 @@
 <head>
   <meta charset="UTF-8" />
   <title>Reservasi Kafe</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
 
-<h3>Test Reservasi (Vercel Ready)</h3>
+<h2>Reservasi Meja</h2>
 
-<button id="btnTest">Kirim Test Reservasi</button>
+<!-- 1. Data Pemesan -->
+<section>
+  <h3>Data Pemesan</h3>
 
-<pre id="output"></pre>
+  <label>
+    Nama<br />
+    <input type="text" id="nama" placeholder="Nama lengkap" />
+  </label>
+  <br /><br />
+
+  <label>
+    Nomor WhatsApp<br />
+    <input type="tel" id="whatsapp" placeholder="08xxxxxxxxxx" />
+  </label>
+</section>
+
+<hr />
+
+<!-- 2. Pilih Tanggal -->
+<section>
+  <h3>Pilih Tanggal</h3>
+  <input type="date" id="tanggal" />
+</section>
+
+<hr />
+
+<!-- 3. Pilih Paket -->
+<section>
+  <h3>Pilih Paket</h3>
+
+  <label>
+    <input type="radio" name="paket" value="A" />
+    Paket A
+  </label><br />
+
+  <label>
+    <input type="radio" name="paket" value="B" />
+    Paket B
+  </label><br />
+
+  <label>
+    <input type="radio" name="paket" value="C" />
+    Paket C
+  </label>
+
+  <!-- sub-pilihan (nanti diaktifkan dengan JS) -->
+  <div id="paket-detail" style="margin-top:10px; display:none;">
+    <strong>Detail Paket</strong><br />
+    <select id="paketDetail">
+      <option value="">-- pilih --</option>
+      <option value="opsi1">Opsi 1</option>
+      <option value="opsi2">Opsi 2</option>
+    </select>
+  </div>
+</section>
+
+<hr />
+
+<!-- 4. Pilih Ruangan -->
+<section>
+  <h3>Pilih Ruangan</h3>
+
+  <button type="button">Ruangan 1</button>
+  <button type="button">Ruangan 2</button>
+  <button type="button">Ruangan 3</button>
+</section>
+
+<hr />
+
+<!-- 5. Denah Meja -->
+<section>
+  <h3>Pilih Meja</h3>
+
+  <div id="table-map">
+    <!-- meja akan di-render dengan JS -->
+    <p>Denah meja akan tampil di sini</p>
+  </div>
+</section>
+
+<hr />
+
+<!-- 6. Submit -->
+<section>
+  <button id="btnSubmit">Reservasi Sekarang</button>
+</section>
 
 <script src="./script.js"></script>
 </body>
