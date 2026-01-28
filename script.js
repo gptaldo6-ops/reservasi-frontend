@@ -1,4 +1,4 @@
-
+let pendingPayload = null;
 /* =========================
    INIT
 ========================= */
@@ -233,6 +233,7 @@ function collectPaketData() {
 /* =========================
    SUBMIT
 ========================= */
+
 const btnSubmit = document.getElementById("btnSubmit");
 if (btnSubmit) {
   btnSubmit.onclick = () => {
@@ -251,27 +252,27 @@ if (btnSubmit) {
       return;
     }
 
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = API_URL;
-
-    const add = (n, v) => {
-      const i = document.createElement("input");
-      i.type = "hidden";
-      i.name = n;
-      i.value = typeof v === "string" ? v : JSON.stringify(v);
-      form.appendChild(i);
+    // simpan payload sementara
+    pendingPayload = {
+      nama,
+      whatsapp,
+      tanggal,
+      tableId: selectedTable,
+      paket
     };
 
-    add("nama", nama);
-    add("whatsapp", whatsapp);
-    add("tanggal", tanggal);
-    add("tableId", selectedTable);
-    add("paket", paket);
+    // nonaktifkan tombol agar tidak dobel
+    btnSubmit.disabled = true;
+    btnSubmit.innerText = "Menunggu Pembayaran...";
 
-    document.body.appendChild(form);
-    form.submit();
-    form.remove();
+    // tampilkan popup
+    showPaymentPopup({
+      resvId: "R-TEST-01",
+      nama,
+      tanggal,
+      meja: selectedTable,
+      total: 150000
+    });
   };
 }
 
@@ -304,6 +305,28 @@ function closePayment() {
 }
 
 
+
+document.getElementById("btnWA").onclick = () => {
+  if (!pendingPayload) return;
+
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = API_URL;
+
+  Object.entries(pendingPayload).forEach(([k, v]) => {
+    const i = document.createElement("input");
+    i.type = "hidden";
+    i.name = k;
+    i.value = typeof v === "string" ? v : JSON.stringify(v);
+    form.appendChild(i);
+  });
+
+  document.body.appendChild(form);
+  form.submit();
+  form.remove();
+
+  pendingPayload = null;
+};
 
 
 
