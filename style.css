@@ -186,3 +186,15 @@ section input[type="radio"] {
   color: #fff;
 }
 
+button {
+  pointer-events: auto !important;
+  z-index: 10;
+  position: relative;
+}
+
+.paket-card,
+.variant,
+.qty-control {
+  pointer-events: auto !important;
+}
+
