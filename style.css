@@ -98,3 +98,42 @@ section input[type="radio"] {
   color: #fff;
 }
 
+.paket-card {
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.paket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.qty-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qty-control button {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: #eee;
+  font-size: 18px;
+}
+
+.qty-control .qty {
+  min-width: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.variant-list {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
