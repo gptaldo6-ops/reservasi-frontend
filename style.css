@@ -137,3 +137,19 @@ section input[type="radio"] {
   font-size: 13px;
 }
 
+.variant {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  opacity: 0.4;
+}
+
+.variant.active {
+  opacity: 1;
+}
+
+.variant .qty-control button:disabled {
+  opacity: 0.3;
+}
+
