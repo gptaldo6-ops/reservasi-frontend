@@ -1,3 +1,20 @@
+const ROOM_TABLES = {
+  R1: ["R1-A1", "R1-A2", "R1-A3", "R1-A4"],
+  R2: ["R2-B1", "R2-B2", "R2-B3"],
+  R3: ["R3-C1", "R3-C2", "R3-C3", "R3-C4", "R3-C5"]
+};
+
+let selectedRoom = null;
+let selectedTable = null;
+
+// dummy status (nanti dari backend)
+let tableStatus = {
+  "R1-A2": "FULL",
+  "R2-B3": "FULL",
+  "R3-C1": "FULL"
+};
+
+
 const summaryEl = document.getElementById("order-summary");
 
 function updateSummary() {
@@ -69,3 +86,4 @@ document.querySelectorAll(".paket-card").forEach(card => {
       }
     });
   }
+
