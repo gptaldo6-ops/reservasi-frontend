@@ -201,12 +201,91 @@ if (tanggalInput) {
   );
 }
 
+function collectPaketData() {
+  const result = [];
+
+  document.querySelectorAll(".paket-card").forEach(card => {
+    const paket = card.dataset.paket;
+    const qty = parseInt(card.querySelector(".paket-qty").innerText, 10);
+
+    if (qty > 0) {
+      const variants = [];
+
+      card.querySelectorAll(".variant").forEach(v => {
+        const vQty = parseInt(v.querySelector(".variant-qty").innerText, 10);
+        if (vQty > 0) {
+          variants.push({
+            code: v.dataset.variant,
+            qty: vQty
+          });
+        }
+      });
+
+      result.push({ paket, qty, variants });
+    }
+  });
+
+  return result;
+}
+
 /* =========================
    SUBMIT
 ========================= */
 const btnSubmit = document.getElementById("btnSubmit");
 if (btnSubmit) {
-  btnSubmit.onclick = () => {
-    alert("RESERVASI SIAP DIKIRIM");
+  btnSubmit.onclick = async () => {
+    const nama = document.getElementById("nama")?.value.trim();
+    const whatsapp = document.getElementById("whatsapp")?.value.trim();
+    const tanggal = document.getElementById("tanggal")?.value;
+
+    if (!nama || !whatsapp || !tanggal || !selectedTable) {
+      alert("Lengkapi data dan pilih meja");
+      return;
+    }
+
+    const paket = collectPaketData();
+    if (paket.length === 0) {
+      alert("Pilih minimal satu paket");
+      return;
+    }
+
+    const payload = {
+      nama,
+      whatsapp,
+      tanggal,
+      tableId: selectedTable,
+      paket
+    };
+
+    const statusEl = document.getElementById("submitStatus");
+    if (statusEl) statusEl.innerText = "Menyimpan reservasi...";
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        if (statusEl) {
+          statusEl.innerText =
+            "Reservasi berhasil! Kode: " + result.resvId;
+        }
+      } else {
+        if (statusEl) {
+          statusEl.innerText =
+            "Gagal: " + (result.message || "Unknown error");
+        }
+      }
+
+    } catch (err) {
+      console.error(err);
+      if (statusEl) statusEl.innerText = "Error koneksi server";
+    }
   };
 }
