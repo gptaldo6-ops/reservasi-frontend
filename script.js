@@ -304,36 +304,29 @@ function closePayment() {
     .classList.add("hidden");
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  const btnWA = document.getElementById("btnWA");
+  if (!btnWA) return;
 
+  btnWA.onclick = () => {
+    if (!pendingPayload) return;
 
-document.getElementById("btnWA").onclick = () => {
-  if (!pendingPayload) return;
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = API_URL;
 
-  const form = document.createElement("form");
-  form.method = "POST";
-  form.action = API_URL;
+    Object.entries(pendingPayload).forEach(([k, v]) => {
+      const i = document.createElement("input");
+      i.type = "hidden";
+      i.name = k;
+      i.value = typeof v === "string" ? v : JSON.stringify(v);
+      form.appendChild(i);
+    });
 
-  Object.entries(pendingPayload).forEach(([k, v]) => {
-    const i = document.createElement("input");
-    i.type = "hidden";
-    i.name = k;
-    i.value = typeof v === "string" ? v : JSON.stringify(v);
-    form.appendChild(i);
-  });
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
 
-  document.body.appendChild(form);
-  form.submit();
-  form.remove();
-
-  pendingPayload = null;
-};
-
-
-
-
-
-
-
-
-
-
+    pendingPayload = null;
+  };
+});
