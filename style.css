@@ -243,19 +243,20 @@ section input[type="radio"] {
   }
 }
 
-/* =====================
-   MEJA TENGAH
-===================== */
-
-/* Tengah utama → vertikal & agak mundur */
-.meja.tengah-utama {
-  min-height: 110px;        /* memanjang vertikal */
-  margin-top: 12px;         /* mundur ke bawah */
+/* kolom tengah */
+.col.center {
+  align-items: stretch;
+  gap: 16px;          /* jarak antar meja tengah */
+  padding-top: 12px;  /* seluruh kolom agak mundur */
 }
 
-/* Tengah belakang → horizontal & lebih mundur */
+/* tengah utama: vertikal */
+.meja.tengah-utama {
+  min-height: 120px;
+}
+
+/* tengah belakang: horizontal & lebih mundur */
 .meja.tengah-belakang {
   min-height: 56px;
-  margin-top: 18px;         /* lebih mundur */
-  width: 100%;              /* penuh kolom */
+  margin-top: 12px;
 }
