@@ -242,10 +242,38 @@
   <button type="button" id="btnSubmit">Reservasi Sekarang</button>
 </section>
 
+<div id="paymentModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>Pembayaran QRIS</h3>
+
+    <p class="label">Total Pembayaran</p>
+    <div class="total">Rp <span id="payTotal">0</span></div>
+
+    <img src="/qris.png" class="qris-img" alt="QRIS">
+
+    <div class="instruksi">
+      <p>Instruksi Pembayaran:</p>
+      <ol>
+        <li>Scan QRIS di atas</li>
+        <li>Lakukan pembayaran sesuai total</li>
+        <li>Klik tombol di bawah untuk kirim bukti</li>
+      </ol>
+    </div>
+
+    <a id="btnWA" class="btn-wa" target="_blank">
+      Kirim Bukti via WhatsApp
+    </a>
+
+    <button class="btn-close" onclick="closePayment()">Tutup</button>
+  </div>
+</div>
+
+
 <script src="./script.js"></script>
 
 </body>
 </html>
+
 
 
 
