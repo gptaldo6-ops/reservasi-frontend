@@ -42,13 +42,25 @@ function updateSummary() {
     return;
   }
 
-  summaryEl.innerHTML = data.map(d => `
+  let html = data.map(d => `
     <div style="margin-bottom:10px">
       <strong>Paket ${d.paket} × ${d.qty}</strong><br/>
       ${d.variants.length ? d.variants.join("<br/>") : "<em>Belum pilih variant</em>"}
     </div>
   `).join("");
+
+  // 🔵 INI BAGIAN BARU (LANGKAH 5)
+  if (selectedRoom) {
+    html += `<div><strong>Ruangan:</strong> ${selectedRoom}</div>`;
+  }
+
+  if (selectedTable) {
+    html += `<div><strong>Meja:</strong> ${selectedTable}</div>`;
+  }
+
+  summaryEl.innerHTML = html;
 }
+
 
 document.querySelectorAll(".paket-card").forEach(card => {
   const capacity = parseInt(card.dataset.capacity, 10);
@@ -134,6 +146,7 @@ function renderTables() {
     tableMap.appendChild(div);
   });
 }
+
 
 
 
