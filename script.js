@@ -262,13 +262,46 @@ if (btnSubmit) {
     if (statusEl) statusEl.innerText = "Menyimpan reservasi...";
 
     try {
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      });
+     btnSubmit.onclick = () => {
+  const nama = document.getElementById("nama").value.trim();
+  const whatsapp = document.getElementById("whatsapp").value.trim();
+  const tanggal = document.getElementById("tanggal").value;
+
+  if (!nama || !whatsapp || !tanggal || !selectedTable) {
+    alert("Lengkapi data dan pilih meja");
+    return;
+  }
+
+  const paket = collectPaketData();
+  if (paket.length === 0) {
+    alert("Pilih minimal satu paket");
+    return;
+  }
+
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = API_URL;
+  form.target = "_blank"; // bisa dihapus kalau tidak mau tab baru
+
+  function add(name, value) {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  }
+
+  add("nama", nama);
+  add("whatsapp", whatsapp);
+  add("tanggal", tanggal);
+  add("tableId", selectedTable);
+  add("paket", JSON.stringify(paket));
+
+  document.body.appendChild(form);
+  form.submit();
+  form.remove();
+};
+
 
       const result = await res.json();
 
@@ -290,5 +323,6 @@ if (btnSubmit) {
     }
   };
 }
+
 
 
