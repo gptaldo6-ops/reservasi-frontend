@@ -274,5 +274,34 @@ if (btnSubmit) {
 };
 }
 
+function showPaymentPopup({ resvId, nama, tanggal, meja, total }) {
+  document.getElementById("payTotal").innerText =
+    total.toLocaleString("id-ID");
+
+  const text =
+`Halo, saya sudah melakukan pembayaran QRIS.
+
+Kode Reservasi: ${resvId}
+Nama: ${nama}
+Tanggal: ${tanggal}
+Meja: ${meja}
+Total: Rp${total.toLocaleString("id-ID")}
+
+Saya lampirkan bukti transfer.
+Terima kasih.`;
+
+  document.getElementById("btnWA").href =
+    "https://wa.me/6285156076002?text=" + encodeURIComponent(text);
+
+  document.getElementById("paymentModal")
+    .classList.remove("hidden");
+}
+
+function closePayment() {
+  document.getElementById("paymentModal")
+    .classList.add("hidden");
+}
+
+
 
 
