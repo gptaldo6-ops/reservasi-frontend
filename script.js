@@ -265,36 +265,6 @@ if (btnSubmit) {
   };
 }
 
-  const paket = collectPaketData();
-  if (paket.length === 0) {
-    alert("Pilih minimal satu paket");
-    return;
-  }
-
-  const form = document.createElement("form");
-  form.method = "POST";
-  form.action = API_URL;
-
-  function add(name, value) {
-    const input = document.createElement("input");
-    input.type = "hidden";
-    input.name = name;
-    input.value = value;
-    form.appendChild(input);
-  }
-
-  add("nama", nama);
-  add("whatsapp", whatsapp);
-  add("tanggal", tanggal);
-  add("tableId", selectedTable);
-  add("paket", JSON.stringify(paket));
-
-  document.body.appendChild(form);
-  form.submit();
-  form.remove();
-};
-}
-
 function showPaymentPopup({ resvId, nama, tanggal, meja, total }) {
   document.getElementById("payTotal").innerText =
     total.toLocaleString("id-ID");
@@ -322,6 +292,7 @@ function closePayment() {
   document.getElementById("paymentModal")
     .classList.add("hidden");
 }
+
 
 
 
