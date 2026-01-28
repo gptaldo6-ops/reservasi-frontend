@@ -242,6 +242,15 @@ if (btnSubmit) {
   if (!nama || !whatsapp || !tanggal || !selectedTable) {
     alert("Lengkapi data dan pilih meja");
     return;
+
+     showPaymentPopup({
+  resvId: "R-TEST-01",
+  nama: nama,
+  tanggal: tanggal,
+  meja: selectedTable,
+  total: 150000
+});
+
   }
 
   const paket = collectPaketData();
@@ -309,6 +318,7 @@ showPaymentPopup({
   meja: selectedTable,
   total: 150000
 });
+
 
 
 
