@@ -186,11 +186,11 @@
 <section>
   <h3>Pilih Ruangan</h3>
 
-  <div class="room-selector">
-  <button class="room-btn active" data-room="R1">Ruangan 1</button>
-  <button class="room-btn" data-room="R2">Ruangan 2</button>
-  <button class="room-btn" data-room="R3">Ruangan 3</button>
-</div>
+  <div class="room-buttons">
+    <button type="button" data-room="R1">Ruangan 1</button>
+    <button type="button" data-room="R2">Ruangan 2</button>
+    <button type="button" data-room="R3">Ruangan 3</button>
+  </div>
 </section>
 
 
@@ -200,41 +200,15 @@
 <section>
   <h3>Pilih Meja</h3>
 
-<!-- RUANGAN 1 -->
-<div id="room-R1" class="denah room active">
+<div class="denah">
   <div class="bar">BAR</div>
 
   <div class="grid">
     <div class="col left">
-      <div class="meja" data-id="R1-KANAN-1">KANAN 1<br>4 org</div>
-      <div class="meja" data-id="R1-KANAN-2">KANAN 2<br>4 org</div>
-      <div class="meja small" data-id="R1-KANAN-3">KANAN 3<br>2 org</div>
+      <div class="meja" data-id="KANAN-1">KANAN 1<br>4 org</div>
+      <div class="meja" data-id="KANAN-2">KANAN 2<br>4 org</div>
+      <div class="meja small" data-id="KANAN-3">KANAN 3<br>2 org</div>
     </div>
-
-    <div class="col center">
-      <div class="meja tengah-utama big" data-id="R1-TENGAH">TENGAH<br>6 org</div>
-      <div class="meja tengah-belakang wide" data-id="R1-TENGAH-BELAKANG">
-        TENGAH BLKG<br>6 org
-      </div>
-    </div>
-
-    <div class="col right">
-      <div class="meja" data-id="R1-KIRI-1">KIRI 1<br>4 org</div>
-      <div class="meja" data-id="R1-KIRI-2">KIRI 2<br>4 org</div>
-      <div class="meja small" data-id="R1-KIRI-3">KIRI 3<br>2 org</div>
-    </div>
-  </div>
-</div>
-
-<!-- RUANGAN 2 -->
-<div id="room-R2" class="denah room">
-  <!-- copy denah, tapi data-id diawali R2- -->
-</div>
-
-<!-- RUANGAN 3 -->
-<div id="room-R3" class="denah room">
-  <!-- copy denah, tapi data-id diawali R3- -->
-</div>
 
  <div class="col center">
   <div class="meja tengah-utama big" data-id="TENGAH">
@@ -299,8 +273,6 @@
 
 </body>
 </html>
-
-
 
 
 
