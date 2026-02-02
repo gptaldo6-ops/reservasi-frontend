@@ -200,43 +200,66 @@
 <section>
   <h3>Pilih Meja</h3>
 
-<div class="denah">
-  <div class="bar">BAR</div>
+  <!-- RUANGAN 1 -->
+  <div class="denah room-denah" data-room="R1">
 
-  <div class="grid">
-    <div class="col left">
-      <div class="meja" data-id="KANAN-1">KANAN 1<br>4 org</div>
-      <div class="meja" data-id="KANAN-2">KANAN 2<br>4 org</div>
-      <div class="meja small" data-id="KANAN-3">KANAN 3<br>2 org</div>
+    <div class="bar">BAR</div>
+
+    <div class="grid">
+      <div class="col left">
+        <div class="meja" data-id="R1-KANAN-1">KANAN 1<br>4 org</div>
+        <div class="meja" data-id="R1-KANAN-2">KANAN 2<br>4 org</div>
+        <div class="meja small" data-id="R1-KANAN-3">KANAN 3<br>2 org</div>
+      </div>
+
+      <div class="col center">
+        <div class="meja tengah-utama big" data-id="R1-TENGAH">
+          TENGAH<br>6 org
+        </div>
+        <div class="meja tengah-belakang wide" data-id="R1-TENGAH-BELAKANG">
+          TENGAH BLKG<br>6 org
+        </div>
+      </div>
+
+      <div class="col right">
+        <div class="meja" data-id="R1-KIRI-1">KIRI 1<br>4 org</div>
+        <div class="meja" data-id="R1-KIRI-2">KIRI 2<br>4 org</div>
+        <div class="meja small" data-id="R1-KIRI-3">KIRI 3<br>2 org</div>
+      </div>
     </div>
-
- <div class="col center">
-  <div class="meja tengah-utama big" data-id="TENGAH">
-    TENGAH<br>6 org
   </div>
+<!-- RUANGAN 2 -->
+  <div class="denah room-denah hidden" data-room="R2">
 
-  <div class="meja tengah-belakang wide" data-id="TENGAH-BELAKANG">
-    TENGAH BLKG<br>6 org
-  </div>
-</div>
+    <div class="grid">
+      <div class="col">
+        <div class="meja big" data-id="R2-A1">A1<br>6 org</div>
+        <div class="meja" data-id="R2-A2">A2<br>4 org</div>
+      </div>
 
-
-    <div class="col right">
-      <div class="meja" data-id="KIRI-1">KIRI 1<br>4 org</div>
-      <div class="meja" data-id="KIRI-2">KIRI 2<br>4 org</div>
-      <div class="meja small" data-id="KIRI-3">KIRI 3<br>2 org</div>
+      <div class="col">
+        <div class="meja big" data-id="R2-B1">B1<br>6 org</div>
+        <div class="meja" data-id="R2-B2">B2<br>4 org</div>
+      </div>
     </div>
   </div>
-</div>
+<!-- RUANGAN 3 -->
+  <div class="denah room-denah hidden" data-room="R3">
 
+    <div class="grid">
+      <div class="col">
+        <div class="meja small" data-id="R3-P1">P1<br>2 org</div>
+        <div class="meja small" data-id="R3-P2">P2<br>2 org</div>
+      </div>
+
+      <div class="col">
+        <div class="meja" data-id="R3-P3">P3<br>4 org</div>
+      </div>
+    </div>
+  </div>
 
   <p id="mejaTerpilih" style="text-align:center;margin-top:10px;"></p>
 </section>
-
-
-
-<hr />
-
 <!-- 6. Submit -->
 <section>
   <button type="button" id="btnSubmit">Reservasi Sekarang</button>
@@ -273,6 +296,7 @@
 
 </body>
 </html>
+
 
 
 
