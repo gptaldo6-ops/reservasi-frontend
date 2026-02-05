@@ -1,3 +1,6 @@
+/* =========================
+   GLOBAL STATE
+========================= */
 let pendingPayload = null;
 let selectedTable = null;
 let selectedRoom = "R1";
@@ -5,7 +8,7 @@ let selectedRoom = "R1";
 console.log("SCRIPT READY");
 
 /* =========================
-   INIT ROOM (DEFAULT)
+   INIT ROOM DEFAULT
 ========================= */
 document.addEventListener("DOMContentLoaded", () => {
   const defaultBtn = document.querySelector('.room-buttons button[data-room="R1"]');
@@ -81,7 +84,9 @@ document.querySelectorAll(".paket-card").forEach(card => {
 
   function totalVariant() {
     let t = 0;
-    variants.forEach(v => t += parseInt(v.querySelector(".variant-qty").innerText, 10));
+    variants.forEach(v => {
+      t += parseInt(v.querySelector(".variant-qty").innerText, 10);
+    });
     return t;
   }
 
@@ -111,8 +116,9 @@ document.querySelectorAll(".paket-card").forEach(card => {
   minus.onclick = () => {
     if (paketQty > 0) paketQty--;
     qtyEl.innerText = paketQty;
-    if (paketQty === 0)
+    if (paketQty === 0) {
       variants.forEach(v => v.querySelector(".variant-qty").innerText = "0");
+    }
     refreshVariantUI();
     updateSummary();
   };
@@ -143,16 +149,15 @@ document.querySelectorAll(".paket-card").forEach(card => {
 updateSummary();
 
 /* =========================
-   DENAH MEJA (CLICK)
+   DENAH MEJA
 ========================= */
 function bindMejaClick() {
   document.querySelectorAll(".room-denah:not(.hidden) .meja").forEach(m => {
     m.onclick = () => {
       if (m.classList.contains("full")) return;
 
-      document.querySelectorAll(".meja").forEach(x =>
-        x.classList.remove("selected")
-      );
+      document.querySelectorAll(".meja")
+        .forEach(x => x.classList.remove("selected"));
 
       m.classList.add("selected");
       selectedTable = m.dataset.id;
@@ -164,7 +169,7 @@ function bindMejaClick() {
 }
 
 /* =========================
-   LOAD STATUS MEJA (API)
+   LOAD STATUS MEJA
 ========================= */
 const API_URL =
   "https://script.google.com/macros/s/AKfycbwFU-fHZR5lphEAX0R-I_BvKQx5H1MtCBxgfQU7s6Xnc-RYgx3UZX61RY7eXshk3EX0Sw/exec";
@@ -184,7 +189,8 @@ function loadTableStatus(tanggal) {
   };
 
   const script = document.createElement("script");
-  script.src = `${API_URL}?action=getTableStatus&tanggal=${tanggal}&callback=${cb}`;
+  script.src =
+    `${API_URL}?action=getTableStatus&tanggal=${tanggal}&callback=${cb}`;
   document.body.appendChild(script);
 }
 
@@ -192,7 +198,7 @@ document.getElementById("tanggal")
   .addEventListener("change", e => loadTableStatus(e.target.value));
 
 /* =========================
-   SUBMIT
+   SUBMIT (KIRIM DATA)
 ========================= */
 function collectPaketData() {
   const data = [];
@@ -215,46 +221,27 @@ document.getElementById("btnSubmit").onclick = () => {
   const whatsapp = document.getElementById("whatsapp").value.trim();
   const tanggal = document.getElementById("tanggal").value;
 
-  if (!nama || !whatsapp || !tanggal || !selectedTable)
-    return alert("Lengkapi data & pilih meja");
+  if (!nama || !whatsapp || !tanggal || !selectedTable) {
+    alert("Lengkapi data & pilih meja");
+    return;
+  }
 
   const paket = collectPaketData();
-  if (!paket.length) return alert("Pilih paket");
+  if (!paket.length) {
+    alert("Pilih minimal satu paket");
+    return;
+  }
 
   pendingPayload = {
-    nama, whatsapp, tanggal,
+    nama,
+    whatsapp,
+    tanggal,
     room: selectedRoom,
     tableId: selectedTable,
     paket
   };
 
-  showPaymentPopup({
-    resvId: "R-TEST-01",
-    nama, tanggal,
-    meja: selectedTable,
-    total: 150000
-  });
-};
-
-/* =========================
-   PAYMENT
-========================= */
-function showPaymentPopup({ resvId, nama, tanggal, meja, total }) {
-  payTotal.innerText = total.toLocaleString("id-ID");
-
-  btnWA.href =
-    "https://wa.me/6285156076002?text=" +
-    encodeURIComponent(`Kode: ${resvId}\nNama: ${nama}\nTanggal: ${tanggal}\nMeja: ${meja}`);
-
-  paymentModal.classList.remove("hidden");
-}
-
-function closePayment() {
-  paymentModal.classList.add("hidden");
-}
-
-btnWA.onclick = () => {
-  if (!pendingPayload) return;
+  // === KIRIM KE GOOGLE SHEET ===
   const form = document.createElement("form");
   form.method = "POST";
   form.action = API_URL;
@@ -270,5 +257,36 @@ btnWA.onclick = () => {
   document.body.appendChild(form);
   form.submit();
   form.remove();
+
+  // === TAMPILKAN PAYMENT ===
+  showPaymentPopup({
+    resvId: "AUTO",
+    nama,
+    tanggal,
+    meja: selectedTable,
+    total: 150000
+  });
 };
 
+/* =========================
+   PAYMENT (WA ONLY)
+========================= */
+function showPaymentPopup({ resvId, nama, tanggal, meja, total }) {
+  document.getElementById("payTotal").innerText =
+    total.toLocaleString("id-ID");
+
+  document.getElementById("btnWA").href =
+    "https://wa.me/6285156076002?text=" +
+    encodeURIComponent(
+      `Halo, saya sudah melakukan pembayaran.\n\n` +
+      `Nama: ${nama}\nTanggal: ${tanggal}\nMeja: ${meja}`
+    );
+
+  document.getElementById("paymentModal")
+    .classList.remove("hidden");
+}
+
+function closePayment() {
+  document.getElementById("paymentModal")
+    .classList.add("hidden");
+}
