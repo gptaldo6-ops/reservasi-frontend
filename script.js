@@ -169,7 +169,7 @@ document.querySelectorAll(".meja").forEach(m => {
    LOAD STATUS MEJA (API)
 ========================= */
 const API_URL =
-  "https://script.google.com/macros/s/AKfycbwFU-fHZR5lphEAX0R-I_BvKQx5H1MtCBxgfQU7s6Xnc-RYgx3UZX61RY7eXshk3EX0Sw/exec";
+  "https://script.google.com/macros/s/AKfycbwmkT1H8yLxRGRCzGXOmt1e30an2Wilk-bD2dTewAJ8JcyiPiZ-7mF5ZegZesC5j_0Wng/exec";
 
 function loadTableStatus(tanggal) {
   if (!tanggal) return;
@@ -330,3 +330,4 @@ document.addEventListener("DOMContentLoaded", () => {
     pendingPayload = null;
   };
 });
+
