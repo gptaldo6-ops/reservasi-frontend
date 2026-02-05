@@ -215,6 +215,7 @@ document.getElementById("btnSubmit").onclick = () => {
   const whatsapp = document.getElementById("whatsapp").value.trim();
   const tanggal = document.getElementById("tanggal").value;
 
+
   if (!nama || !whatsapp || !tanggal || !selectedTable)
     return alert("Lengkapi data & pilih meja");
 
