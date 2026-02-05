@@ -241,21 +241,19 @@ document.getElementById("btnSubmit").onclick = () => {
     paket
   };
 
-  // === KIRIM KE GOOGLE SHEET ===
-fetch(API_URL, {
-  method: "POST",
-  mode: "no-cors",
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded"
-  },
-  body: new URLSearchParams({
-    nama,
-    whatsapp,
-    tanggal,
-    tableId: selectedTable,
-    paket: JSON.stringify(paket)
-  })
+
+// === KIRIM KE GOOGLE SHEET (ANTI CORS) ===
+const params = new URLSearchParams({
+  action: "saveReservation",
+  nama,
+  whatsapp,
+  tanggal,
+  tableId: selectedTable,
+  paket: JSON.stringify(paket)
 });
+
+const img = new Image();
+img.src = API_URL + "?" + params.toString();
 
 
   // === TAMPILKAN PAYMENT ===
@@ -290,5 +288,6 @@ function closePayment() {
   document.getElementById("paymentModal")
     .classList.add("hidden");
 }
+
 
 
