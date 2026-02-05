@@ -211,9 +211,9 @@ function collectPaketData() {
 }
 
 document.getElementById("btnSubmit").onclick = () => {
-  const nama = nama.value.trim();
-  const whatsapp = whatsapp.value.trim();
-  const tanggal = tanggal.value;
+  const nama = document.getElementById("nama").value.trim();
+  const whatsapp = document.getElementById("whatsapp").value.trim();
+  const tanggal = document.getElementById("tanggal").value;
 
   if (!nama || !whatsapp || !tanggal || !selectedTable)
     return alert("Lengkapi data & pilih meja");
@@ -271,3 +271,4 @@ btnWA.onclick = () => {
   form.submit();
   form.remove();
 };
+
