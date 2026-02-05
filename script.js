@@ -1,40 +1,62 @@
 let pendingPayload = null;
-/* =========================
-   INIT
-========================= */
+let selectedTable = null;
+let selectedRoom = "R1";
+
 console.log("SCRIPT READY");
 
-let selectedTable = null;
+/* =========================
+   INIT ROOM (DEFAULT)
+========================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const defaultBtn = document.querySelector('.room-buttons button[data-room="R1"]');
+  if (defaultBtn) defaultBtn.click();
+});
+
+/* =========================
+   ROOM SELECTOR
+========================= */
+document.querySelectorAll(".room-buttons button").forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll(".room-buttons button")
+      .forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    selectedRoom = btn.dataset.room;
+
+    document.querySelectorAll(".room-denah").forEach(d => {
+      d.classList.toggle("hidden", d.dataset.room !== selectedRoom);
+    });
+
+    selectedTable = null;
+    const info = document.getElementById("mejaTerpilih");
+    if (info) info.innerText = "";
+
+    const tgl = document.getElementById("tanggal").value;
+    if (tgl) loadTableStatus(tgl);
+
+    bindMejaClick();
+  };
+});
 
 /* =========================
    RINGKASAN PESANAN
 ========================= */
 function updateSummary() {
   const summary = document.getElementById("order-summary");
-  if (!summary) return;
-
   let html = "";
   let hasData = false;
 
   document.querySelectorAll(".paket-card").forEach(card => {
     const paket = card.dataset.paket;
-    const qtyEl = card.querySelector(".paket-qty");
-    if (!qtyEl) return;
-
-    const qty = parseInt(qtyEl.innerText, 10);
+    const qty = parseInt(card.querySelector(".paket-qty").innerText, 10);
     if (qty <= 0) return;
 
     hasData = true;
     html += `<strong>Paket ${paket} × ${qty}</strong><br/>`;
 
     card.querySelectorAll(".variant").forEach(v => {
-      const vQtyEl = v.querySelector(".variant-qty");
-      if (!vQtyEl) return;
-
-      const vQty = parseInt(vQtyEl.innerText, 10);
-      if (vQty > 0) {
-        html += `${v.dataset.variant} × ${vQty}<br/>`;
-      }
+      const vQty = parseInt(v.querySelector(".variant-qty").innerText, 10);
+      if (vQty > 0) html += `${v.dataset.variant} × ${vQty}<br/>`;
     });
 
     html += "<hr/>";
@@ -58,83 +80,57 @@ document.querySelectorAll(".paket-card").forEach(card => {
   let paketQty = 0;
 
   function totalVariant() {
-    let total = 0;
-    variants.forEach(v => {
-      const q = v.querySelector(".variant-qty");
-      if (q) total += parseInt(q.innerText, 10);
-    });
-    return total;
+    let t = 0;
+    variants.forEach(v => t += parseInt(v.querySelector(".variant-qty").innerText, 10));
+    return t;
   }
 
   function refreshVariantUI() {
     const max = paketQty * capacity;
-
     variants.forEach(v => {
-      const vPlus = v.querySelector(".variant-plus");
-      const vMinus = v.querySelector(".variant-minus");
-
-      if (!vPlus || !vMinus) return;
-
+      const vp = v.querySelector(".variant-plus");
+      const vm = v.querySelector(".variant-minus");
       if (paketQty === 0) {
         v.classList.remove("active", "selected");
-        vPlus.disabled = true;
-        vMinus.disabled = true;
+        vp.disabled = vm.disabled = true;
       } else {
         v.classList.add("active");
-        vMinus.disabled = false;
-        vPlus.disabled = totalVariant() >= max;
+        vm.disabled = false;
+        vp.disabled = totalVariant() >= max;
       }
     });
   }
 
-  if (plus) {
-    plus.onclick = () => {
-      paketQty++;
-      qtyEl.innerText = paketQty.toString();
-      refreshVariantUI();
-      updateSummary();
-    };
-  }
+  plus.onclick = () => {
+    paketQty++;
+    qtyEl.innerText = paketQty;
+    refreshVariantUI();
+    updateSummary();
+  };
 
-  if (minus) {
-    minus.onclick = () => {
-      if (paketQty > 0) paketQty--;
-      qtyEl.innerText = paketQty.toString();
-
-      if (paketQty === 0) {
-        variants.forEach(v => {
-          const q = v.querySelector(".variant-qty");
-          if (q) q.innerText = "0";
-        });
-      }
-
-      refreshVariantUI();
-      updateSummary();
-    };
-  }
+  minus.onclick = () => {
+    if (paketQty > 0) paketQty--;
+    qtyEl.innerText = paketQty;
+    if (paketQty === 0)
+      variants.forEach(v => v.querySelector(".variant-qty").innerText = "0");
+    refreshVariantUI();
+    updateSummary();
+  };
 
   variants.forEach(v => {
     const vQty = v.querySelector(".variant-qty");
-    const vPlus = v.querySelector(".variant-plus");
-    const vMinus = v.querySelector(".variant-minus");
-
-    if (!vQty || !vPlus || !vMinus) return;
-
-    vPlus.onclick = () => {
+    v.querySelector(".variant-plus").onclick = () => {
       if (totalVariant() < paketQty * capacity) {
-        vQty.innerText = (parseInt(vQty.innerText, 10) + 1).toString();
+        vQty.innerText = +vQty.innerText + 1;
         v.classList.add("selected");
         refreshVariantUI();
         updateSummary();
       }
     };
-
-    vMinus.onclick = () => {
-      const cur = parseInt(vQty.innerText, 10);
-      if (cur > 0) {
-        const next = cur - 1;
-        vQty.innerText = next.toString();
-        if (next === 0) v.classList.remove("selected");
+    v.querySelector(".variant-minus").onclick = () => {
+      if (+vQty.innerText > 0) {
+        vQty.innerText--;
+        if (+vQty.innerText === 0) v.classList.remove("selected");
         refreshVariantUI();
         updateSummary();
       }
@@ -147,23 +143,25 @@ document.querySelectorAll(".paket-card").forEach(card => {
 updateSummary();
 
 /* =========================
-   DENAH MEJA
+   DENAH MEJA (CLICK)
 ========================= */
-document.querySelectorAll(".meja").forEach(m => {
-  m.onclick = () => {
-    if (m.classList.contains("full")) return;
+function bindMejaClick() {
+  document.querySelectorAll(".room-denah:not(.hidden) .meja").forEach(m => {
+    m.onclick = () => {
+      if (m.classList.contains("full")) return;
 
-    document.querySelectorAll(".meja").forEach(x =>
-      x.classList.remove("selected")
-    );
+      document.querySelectorAll(".meja").forEach(x =>
+        x.classList.remove("selected")
+      );
 
-    m.classList.add("selected");
-    selectedTable = m.dataset.id;
+      m.classList.add("selected");
+      selectedTable = m.dataset.id;
 
-    const info = document.getElementById("mejaTerpilih");
-    if (info) info.innerText = "Meja terpilih: " + selectedTable;
-  };
-});
+      const info = document.getElementById("mejaTerpilih");
+      if (info) info.innerText = "Meja terpilih: " + selectedTable;
+    };
+  });
+}
 
 /* =========================
    LOAD STATUS MEJA (API)
@@ -174,159 +172,102 @@ const API_URL =
 function loadTableStatus(tanggal) {
   if (!tanggal) return;
 
-  const callbackName = "cb_" + Date.now();
-
-  window[callbackName] = function (status) {
+  const cb = "cb_" + Date.now();
+  window[cb] = status => {
     document.querySelectorAll(".meja").forEach(m => {
+      if (!m.closest(`.room-denah[data-room="${selectedRoom}"]`)) return;
       m.classList.remove("available", "full", "selected");
       m.classList.add(status[m.dataset.id] === "FULL" ? "full" : "available");
     });
-
-    delete window[callbackName];
+    delete window[cb];
     script.remove();
   };
 
   const script = document.createElement("script");
-  script.src =
-    API_URL +
-    `?action=getTableStatus&tanggal=${tanggal}&callback=${callbackName}`;
-
+  script.src = `${API_URL}?action=getTableStatus&tanggal=${tanggal}&callback=${cb}`;
   document.body.appendChild(script);
 }
 
-
-const tanggalInput = document.getElementById("tanggal");
-if (tanggalInput) {
- tanggalInput.addEventListener("change", e =>
-  loadTableStatus(e.target.value)
-);
-
-}
-
-function collectPaketData() {
-  const result = [];
-
-  document.querySelectorAll(".paket-card").forEach(card => {
-    const paket = card.dataset.paket;
-    const qty = parseInt(card.querySelector(".paket-qty").innerText, 10);
-
-    if (qty > 0) {
-      const variants = [];
-
-      card.querySelectorAll(".variant").forEach(v => {
-        const vQty = parseInt(v.querySelector(".variant-qty").innerText, 10);
-        if (vQty > 0) {
-          variants.push({
-            code: v.dataset.variant,
-            qty: vQty
-          });
-        }
-      });
-
-      result.push({ paket, qty, variants });
-    }
-  });
-
-  return result;
-}
+document.getElementById("tanggal")
+  .addEventListener("change", e => loadTableStatus(e.target.value));
 
 /* =========================
    SUBMIT
 ========================= */
-
-const btnSubmit = document.getElementById("btnSubmit");
-if (btnSubmit) {
-  btnSubmit.onclick = () => {
-    const nama = document.getElementById("nama").value.trim();
-    const whatsapp = document.getElementById("whatsapp").value.trim();
-    const tanggal = document.getElementById("tanggal").value;
-
-    if (!nama || !whatsapp || !tanggal || !selectedTable) {
-      alert("Lengkapi data dan pilih meja");
-      return;
+function collectPaketData() {
+  const data = [];
+  document.querySelectorAll(".paket-card").forEach(card => {
+    const qty = +card.querySelector(".paket-qty").innerText;
+    if (qty > 0) {
+      const variants = [];
+      card.querySelectorAll(".variant").forEach(v => {
+        const q = +v.querySelector(".variant-qty").innerText;
+        if (q > 0) variants.push({ code: v.dataset.variant, qty: q });
+      });
+      data.push({ paket: card.dataset.paket, qty, variants });
     }
-
-    const paket = collectPaketData();
-    if (paket.length === 0) {
-      alert("Pilih minimal satu paket");
-      return;
-    }
-
-    // simpan payload sementara
-    pendingPayload = {
-      nama,
-      whatsapp,
-      tanggal,
-      tableId: selectedTable,
-      paket
-    };
-
-    // nonaktifkan tombol agar tidak dobel
-    btnSubmit.disabled = true;
-    btnSubmit.innerText = "Menunggu Pembayaran...";
-
-    // tampilkan popup
-    showPaymentPopup({
-      resvId: "R-TEST-01",
-      nama,
-      tanggal,
-      meja: selectedTable,
-      total: 150000
-    });
-  };
+  });
+  return data;
 }
 
+document.getElementById("btnSubmit").onclick = () => {
+  const nama = nama.value.trim();
+  const whatsapp = whatsapp.value.trim();
+  const tanggal = tanggal.value;
+
+  if (!nama || !whatsapp || !tanggal || !selectedTable)
+    return alert("Lengkapi data & pilih meja");
+
+  const paket = collectPaketData();
+  if (!paket.length) return alert("Pilih paket");
+
+  pendingPayload = {
+    nama, whatsapp, tanggal,
+    room: selectedRoom,
+    tableId: selectedTable,
+    paket
+  };
+
+  showPaymentPopup({
+    resvId: "R-TEST-01",
+    nama, tanggal,
+    meja: selectedTable,
+    total: 150000
+  });
+};
+
+/* =========================
+   PAYMENT
+========================= */
 function showPaymentPopup({ resvId, nama, tanggal, meja, total }) {
-  document.getElementById("payTotal").innerText =
-    total.toLocaleString("id-ID");
+  payTotal.innerText = total.toLocaleString("id-ID");
 
-  const text =
-`Halo, saya sudah melakukan pembayaran QRIS.
+  btnWA.href =
+    "https://wa.me/6285156076002?text=" +
+    encodeURIComponent(`Kode: ${resvId}\nNama: ${nama}\nTanggal: ${tanggal}\nMeja: ${meja}`);
 
-Kode Reservasi: ${resvId}
-Nama: ${nama}
-Tanggal: ${tanggal}
-Meja: ${meja}
-Total: Rp${total.toLocaleString("id-ID")}
-
-Saya lampirkan bukti transfer.
-Terima kasih.`;
-
-  document.getElementById("btnWA").href =
-    "https://wa.me/6285156076002?text=" + encodeURIComponent(text);
-
-  document.getElementById("paymentModal")
-    .classList.remove("hidden");
+  paymentModal.classList.remove("hidden");
 }
 
 function closePayment() {
-  document.getElementById("paymentModal")
-    .classList.add("hidden");
+  paymentModal.classList.add("hidden");
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const btnWA = document.getElementById("btnWA");
-  if (!btnWA) return;
+btnWA.onclick = () => {
+  if (!pendingPayload) return;
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = API_URL;
 
-  btnWA.onclick = () => {
-    if (!pendingPayload) return;
+  Object.entries(pendingPayload).forEach(([k, v]) => {
+    const i = document.createElement("input");
+    i.type = "hidden";
+    i.name = k;
+    i.value = typeof v === "string" ? v : JSON.stringify(v);
+    form.appendChild(i);
+  });
 
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = API_URL;
-
-    Object.entries(pendingPayload).forEach(([k, v]) => {
-      const i = document.createElement("input");
-      i.type = "hidden";
-      i.name = k;
-      i.value = typeof v === "string" ? v : JSON.stringify(v);
-      form.appendChild(i);
-    });
-
-    document.body.appendChild(form);
-    form.submit();
-    form.remove();
-
-    pendingPayload = null;
-  };
-});
+  document.body.appendChild(form);
+  form.submit();
+  form.remove();
+};
