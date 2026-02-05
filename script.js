@@ -242,21 +242,27 @@ document.getElementById("btnSubmit").onclick = () => {
   };
 
   // === KIRIM KE GOOGLE SHEET ===
-  const form = document.createElement("form");
-  form.method = "POST";
-  form.action = API_URL;
+ fetch(API_URL, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded"
+  },
+  body: new URLSearchParams({
+    nama,
+    whatsapp,
+    tanggal,
+    tableId: selectedTable,
+    paket: JSON.stringify(paket)
+  })
+})
+.then(r => r.text())
+.then(res => {
+  console.log("RESP:", res);
+})
+.catch(err => {
+  console.error("POST ERROR", err);
+});
 
-  Object.entries(pendingPayload).forEach(([k, v]) => {
-    const i = document.createElement("input");
-    i.type = "hidden";
-    i.name = k;
-    i.value = typeof v === "string" ? v : JSON.stringify(v);
-    form.appendChild(i);
-  });
-
-  document.body.appendChild(form);
-  form.submit();
-  form.remove();
 
   // === TAMPILKAN PAYMENT ===
   showPaymentPopup({
@@ -290,3 +296,4 @@ function closePayment() {
   document.getElementById("paymentModal")
     .classList.add("hidden");
 }
+
