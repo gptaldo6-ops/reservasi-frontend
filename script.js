@@ -242,8 +242,9 @@ document.getElementById("btnSubmit").onclick = () => {
   };
 
   // === KIRIM KE GOOGLE SHEET ===
- fetch(API_URL, {
+fetch(API_URL, {
   method: "POST",
+  mode: "no-cors",
   headers: {
     "Content-Type": "application/x-www-form-urlencoded"
   },
@@ -254,13 +255,6 @@ document.getElementById("btnSubmit").onclick = () => {
     tableId: selectedTable,
     paket: JSON.stringify(paket)
   })
-})
-.then(r => r.text())
-.then(res => {
-  console.log("RESP:", res);
-})
-.catch(err => {
-  console.error("POST ERROR", err);
 });
 
 
@@ -296,4 +290,5 @@ function closePayment() {
   document.getElementById("paymentModal")
     .classList.add("hidden");
 }
+
 
