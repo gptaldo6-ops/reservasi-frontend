@@ -389,5 +389,5 @@ section input[type="radio"] {
 
 .room1-grid .meja[data-id="R1-4"],
 .room1-grid .meja[data-id="R1-5"] {
-  transform: translateX(12px);
+  transform: translateX(8px);
 }
