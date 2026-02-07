@@ -79,7 +79,8 @@ function updateSummary() {
 
     card.querySelectorAll(".variant").forEach(v => {
       const vQty = parseInt(v.querySelector(".variant-qty").innerText, 10);
-      if (vQty > 0) html += `${v.dataset.variant} × ${vQty}<br/>`;
+      const NameVariant = v.querySelector(".namaVariant").innerText;
+      if (vQty > 0) html += `${NameVariant} × ${vQty}<br/>`;
     });
 
     html += "<hr/>";
@@ -230,6 +231,7 @@ function collectPaketData() {
       data.push({ paket: card.dataset.paket, qty, variants });
     }
   });
+  console.log(data);
   return data;
 }
 
