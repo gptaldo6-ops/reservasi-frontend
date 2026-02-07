@@ -305,7 +305,42 @@ section input[type="radio"] {
   background: #25d366;
   color: #fff;
   border-radius: 10px;
-  text-decoration: none;
+  tex/* =====================
+   RUANGAN 2 (GRID MODERN)
+===================== */
+.room2 {
+  background: #f7f7f7;
+}
+
+.room2-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  padding: 30px 20px;
+}
+
+.room2 .meja {
+  background: #dcdfe3;
+  border: none;
+  border-radius: 16px;
+  padding: 22px 10px;
+  font-size: 13px;
+  color: #333;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.05);
+}
+
+/* status tetap kompatibel */
+.room2 .meja.available {
+  background: #c8e6c9;
+}
+
+.room2 .meja.full {
+  background: #ffcdd2;
+}
+
+.room2 .meja.selected {
+  background: #81c784;
+}t-decoration: none;
   margin-top: 12px;
 }
 
@@ -316,3 +351,5 @@ section input[type="radio"] {
   border: none;
   border-radius: 10px;
 }
+
+
