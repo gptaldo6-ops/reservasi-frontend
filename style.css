@@ -363,3 +363,8 @@ section input[type="radio"] {
   font-size: 12px;
   border-radius: 14px;
 }
+
+/* STEP 3 – rapikan jarak antar meja */
+.room2-grid {
+  gap: 12px;
+}
