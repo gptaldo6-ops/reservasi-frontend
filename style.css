@@ -322,18 +322,18 @@ section input[type="radio"] {
 }
 
 /* =====================
-   RUANGAN 2 (FLAT GRID)
+   RUANGAN 1 – FLAT GRID
 ===================== */
 
-/* jangan pakai batas denah lama */
-.room2 {
+/* override denah lama */
+.room1 {
   max-width: 100%;
   border: none;
   background: #f2f2f2;
 }
 
-/* grid 3x3 FIX */
-.room2-grid {
+/* grid 3x3 */
+.room1-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 22px;
@@ -341,7 +341,7 @@ section input[type="radio"] {
 }
 
 /* meja seperti foto */
-.room2 .meja {
+.room1 .meja {
   background: #dfe3e8;
   border: none;
   border-radius: 18px;
@@ -352,19 +352,11 @@ section input[type="radio"] {
 }
 
 /* slot kosong */
-.room2 .empty {
+.room1 .empty {
   pointer-events: none;
 }
 
-/* status tetap kompatibel */
-.room2 .meja.available {
-  background: #c8e6c9;
-}
-
-.room2 .meja.full {
-  background: #ffcdd2;
-}
-
-.room2 .meja.selected {
-  background: #81c784;
-}
+/* status tetap jalan */
+.room1 .meja.available { background: #c8e6c9; }
+.room1 .meja.full { background: #ffcdd2; }
+.room1 .meja.selected { background: #81c784; }
