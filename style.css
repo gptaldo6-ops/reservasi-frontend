@@ -1,4 +1,3 @@
-
 * {
   box-sizing: border-box;
   font-family: system-ui, -apple-system, sans-serif;
@@ -236,6 +235,11 @@ section input[type="radio"] {
   font-weight: bold;
 }
 
+.paketImg {
+  width: 100%;
+  border-radius: 12px;
+} 
+
 /* RESPONSIVE DESKTOP */
 @media (min-width: 768px) {
   .denah {
@@ -305,42 +309,7 @@ section input[type="radio"] {
   background: #25d366;
   color: #fff;
   border-radius: 10px;
-  tex/* =====================
-   RUANGAN 2 (GRID MODERN)
-===================== */
-.room2 {
-  background: #f7f7f7;
-}
-
-.room2-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 26px;
-  padding: 30px 20px;
-}
-
-.room2 .meja {
-  background: #dcdfe3;
-  border: none;
-  border-radius: 16px;
-  padding: 22px 10px;
-  font-size: 13px;
-  color: #333;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,.05);
-}
-
-/* status tetap kompatibel */
-.room2 .meja.available {
-  background: #c8e6c9;
-}
-
-.room2 .meja.full {
-  background: #ffcdd2;
-}
-
-.room2 .meja.selected {
-  background: #81c784;
-}t-decoration: none;
+  text-decoration: none;
   margin-top: 12px;
 }
 
@@ -350,21 +319,4 @@ section input[type="radio"] {
   padding: 10px;
   border: none;
   border-radius: 10px;
-}
-
-/* STEP 1 – paksa grid Ruangan 2 di mobile */
-.room2-grid {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-/* STEP 2 – kecilkan meja agar muat di mobile */
-.room2 .meja {
-  padding: 10px 6px;
-  font-size: 12px;
-  border-radius: 14px;
-}
-
-/* STEP 3 – rapikan jarak antar meja */
-.room2-grid {
-  gap: 12px;
 }
