@@ -322,59 +322,31 @@ section input[type="radio"] {
 }
 
 /* =====================
-   RUANGAN 1 – FLAT GRID
+   RUANGAN 1 – GRID SPREADSHEET STYLE
 ===================== */
 
-/* override denah lama */
 .room1 {
   max-width: 100%;
-  border: none;
   background: #f2f2f2;
-}
-
-/* grid 3x3 */
-.room1-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-  padding: 26px 20px;
-}
-
-/* meja seperti foto */
-.room1 .meja {
-  background: #dfe3e8;
   border: none;
-  border-radius: 18px;
-  padding: 22px 10px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #333;
 }
 
-/* slot kosong */
-.room1 .empty {
-  pointer-events: none;
-}
-
-/* status tetap jalan */
-.room1 .meja.available { background: #c8e6c9; }
-.room1 .meja.full { background: #ffcdd2; }
-.room1 .meja.selected { background: #81c784; }
-
-/* FINAL – kunci posisi meja Ruangan 1 */
 .room1-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, auto);
   gap: 22px;
   padding: 26px 20px;
 
   grid-template-areas:
-    "m1 m3 m7"
-    ". m4 m5"
-    "m2 m6 m8";
+    "m1 .  m3 .  m7"
+    ".  .  .  .  ."
+    ".  m4 .  m5 ."
+    ".  .  .  .  ."
+    "m2 .  m6 .  m8";
 }
 
-/* mapping area */
+/* mapping meja ke grid */
 .room1-grid .meja[data-id="R1-1"] { grid-area: m1; }
 .room1-grid .meja[data-id="R1-3"] { grid-area: m3; }
 .room1-grid .meja[data-id="R1-7"] { grid-area: m7; }
@@ -386,8 +358,13 @@ section input[type="radio"] {
 .room1-grid .meja[data-id="R1-6"] { grid-area: m6; }
 .room1-grid .meja[data-id="R1-8"] { grid-area: m8; }
 
-
-.room1-grid .meja[data-id="R1-4"],
-.room1-grid .meja[data-id="R1-5"] {
-  transform: translateX(8px);
+/* styling meja */
+.room1 .meja {
+  background: #dfe3e8;
+  border: none;
+  border-radius: 18px;
+  padding: 22px 10px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
 }
