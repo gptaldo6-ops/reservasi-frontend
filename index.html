@@ -36,10 +36,24 @@
 
 <hr />
 
-<!-- 3. Pilih Paket -->
-<section>
-  <h3>Pilih Paket</h3>
+<section class="paket-card" data-paket="Paket Valentine" data-capacity="2">
+  <h1>Informasi</h1>
+  <img src="/img/contoh.png" alt="paket valentines" class="paketImg">
+  <ul>
+    <li>minuman</li>
+    <li>makanan</li>
+    <li>disert eangel</li>
+  </ul>
+        <div class="qty-control" style="display: none;">
+          <button type="button" class="paket-minus">−</button>
+          <span class="paket-qty">1</span>
+          <button type="button" class="paket-plus">+</button>
+        </div>
+</section>
 
+<!-- 3. Pilih Paket -->
+<section style="display: none;">
+  <h3>Pilih Paket</h3>
   <!-- Paket A -->
   <div class="paket-card" data-paket="A" data-capacity="2">
     <div class="paket-header">
@@ -150,14 +164,14 @@
     </div>
 
     <div class="variant-list">
-  <div class="variant" data-variant="D1">
+    <div class="variant" data-variant="D1">
     Variant D1
     <div class="qty-control">
       <button type="button" class="variant-minus">−</button>
       <span class="variant-qty">0</span>
       <button type="button" class="variant-plus">+</button>
     </div>
-  </div>
+    </div>
 
   <div class="variant" data-variant="D2">
     Variant D2
@@ -228,22 +242,21 @@
       </div>
     </div>
   </div>
-  <!-- RUANGAN 2 -->
-<div class="denah room-denah hidden room2" data-room="R2">
-  <div class="room2-grid">
-    <div class="meja" data-id="R2-1">Meja No 1</div>
-    <div class="meja" data-id="R2-3">Meja No 3</div>
-    <div class="meja" data-id="R2-7">Meja No 7</div>
+<!-- RUANGAN 2 -->
+  <div class="denah room-denah hidden" data-room="R2">
 
-    <div class="meja" data-id="R2-4">Meja No 4</div>
-    <div class="meja" data-id="R2-5">Meja No 5</div>
-    <div></div>
+    <div class="grid">
+      <div class="col">
+        <div class="meja big" data-id="R2-A1">A1<br>6 org</div>
+        <div class="meja" data-id="R2-A2">A2<br>4 org</div>
+      </div>
 
-    <div class="meja" data-id="R2-2">Meja No 2</div>
-    <div class="meja" data-id="R2-6">Meja No 6</div>
-    <div class="meja" data-id="R2-8">Meja No 8</div>
+      <div class="col">
+        <div class="meja big" data-id="R2-B1">B1<br>6 org</div>
+        <div class="meja" data-id="R2-B2">B2<br>4 org</div>
+      </div>
+    </div>
   </div>
-</div>
 <!-- RUANGAN 3 -->
   <div class="denah room-denah hidden" data-room="R3">
 
@@ -297,5 +310,3 @@
 
 </body>
 </html>
-
-
