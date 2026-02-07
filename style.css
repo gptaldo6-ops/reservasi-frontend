@@ -331,12 +331,31 @@ section input[type="radio"] {
   border: none;
 }
 
-.room1-grid {
+.flex-meja1 {
+  display: flex;
+  justify-content: space-between;
+  padding: 26px 10px;
+  gap: 8px;
+}
+.flex-meja3 {
+  display: flex;
+  justify-content: space-between;
+  padding: 26px 10px;
+  gap: 8px;
+}
+.flex-meja2 {
+  display: flex;
+  justify-content: space-around;
+  padding: 26px 10px;
+  gap: 8px;
+}
+
+/* .room1-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(5, auto);
-  gap: 22px;
-  padding: 26px 20px;
+  gap: 8px;
+  padding: 26px 10px;
 
   grid-template-areas:
     "m1 .  m3 .  m7"
@@ -344,10 +363,10 @@ section input[type="radio"] {
     ".  m4 .  m5 ."
     ".  .  .  .  ."
     "m2 .  m6 .  m8";
-}
+} */
 
 /* mapping meja ke grid */
-.room1-grid .meja[data-id="R1-1"] { grid-area: m1; }
+/* .room1-grid .meja[data-id="R1-1"] { grid-area: m1; }
 .room1-grid .meja[data-id="R1-3"] { grid-area: m3; }
 .room1-grid .meja[data-id="R1-7"] { grid-area: m7; }
 
@@ -356,7 +375,7 @@ section input[type="radio"] {
 
 .room1-grid .meja[data-id="R1-2"] { grid-area: m2; }
 .room1-grid .meja[data-id="R1-6"] { grid-area: m6; }
-.room1-grid .meja[data-id="R1-8"] { grid-area: m8; }
+.room1-grid .meja[data-id="R1-8"] { grid-area: m8; } */
 
 /* styling meja */
 .room1 .meja {
