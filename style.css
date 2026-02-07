@@ -6,8 +6,17 @@
 body {
   margin: 0;
   padding: 14px;
-  background: #f4f4f4;
+  background-image: url("img/bg.png");
+  background-size: cover;
+  background-attachment: fixed;
   color: #222;
+}
+
+.head-text {
+  width: 100%;
+  max-width: 400px;
+  display: block;
+  margin: 0 auto 20px;
 }
 
 h2 {
