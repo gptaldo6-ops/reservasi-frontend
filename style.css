@@ -230,7 +230,7 @@ section input[type="radio"] {
 }
 
 .meja.selected {
-  background: #81c784;
+  background: #81c784 !important;
   border-color: #1b5e20;
   font-weight: bold;
 }
