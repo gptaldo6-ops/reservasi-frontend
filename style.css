@@ -352,4 +352,14 @@ section input[type="radio"] {
   border-radius: 10px;
 }
 
+/* STEP 1 – paksa grid Ruangan 2 di mobile */
+.room2-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
 
+/* STEP 2 – kecilkan meja agar muat di mobile */
+.room2 .meja {
+  padding: 10px 6px;
+  font-size: 12px;
+  border-radius: 14px;
+}
