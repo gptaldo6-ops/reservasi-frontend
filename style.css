@@ -320,3 +320,51 @@ section input[type="radio"] {
   border: none;
   border-radius: 10px;
 }
+
+/* =====================
+   RUANGAN 2 (FLAT GRID)
+===================== */
+
+/* jangan pakai batas denah lama */
+.room2 {
+  max-width: 100%;
+  border: none;
+  background: #f2f2f2;
+}
+
+/* grid 3x3 FIX */
+.room2-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  padding: 26px 20px;
+}
+
+/* meja seperti foto */
+.room2 .meja {
+  background: #dfe3e8;
+  border: none;
+  border-radius: 18px;
+  padding: 22px 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* slot kosong */
+.room2 .empty {
+  pointer-events: none;
+}
+
+/* status tetap kompatibel */
+.room2 .meja.available {
+  background: #c8e6c9;
+}
+
+.room2 .meja.full {
+  background: #ffcdd2;
+}
+
+.room2 .meja.selected {
+  background: #81c784;
+}
