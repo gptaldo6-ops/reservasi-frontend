@@ -12,6 +12,29 @@ document.addEventListener("DOMContentLoaded", () => {
   if (defaultBtn) defaultBtn.click();
 });
 
+
+/*=========================
+rule tanggal
+========================= */
+const tanggalInput = document.getElementById("tanggal");
+
+tanggalInput.min = "2026-02-14";
+tanggalInput.max = "2026-02-15";
+
+tanggalInput.addEventListener("input", () => {
+            const tanggalDipilih = new Date(this.value);
+            const tanggalMulai = new Date("2026-02-14");
+            const tanggalAkhir = new Date("2026-02-15");
+
+            // Cek jika tanggal di luar range (kurang dari 14 atau lebih dari 15)
+            if (this.value && (tanggalDipilih < tanggalMulai || tanggalDipilih > tanggalAkhir)) {
+                alert("Mohon maaf, tanggal tersebut tidak tersedia/disable.");
+                this.value = ""; // Reset input jadi kosong
+            }
+        });
+
+
+
 /* =========================
    ROOM SELECTOR
 ========================= */
@@ -271,4 +294,3 @@ btnWA.onclick = () => {
   form.submit();
   form.remove();
 };
-
