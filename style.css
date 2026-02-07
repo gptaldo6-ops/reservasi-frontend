@@ -360,3 +360,28 @@ section input[type="radio"] {
 .room1 .meja.available { background: #c8e6c9; }
 .room1 .meja.full { background: #ffcdd2; }
 .room1 .meja.selected { background: #81c784; }
+
+/* FINAL – kunci posisi meja Ruangan 1 */
+.room1-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  padding: 26px 20px;
+
+  grid-template-areas:
+    "m1 m3 m7"
+    "m4 m5 ."
+    "m2 m6 m8";
+}
+
+/* mapping area */
+.room1-grid .meja[data-id="R1-1"] { grid-area: m1; }
+.room1-grid .meja[data-id="R1-3"] { grid-area: m3; }
+.room1-grid .meja[data-id="R1-7"] { grid-area: m7; }
+
+.room1-grid .meja[data-id="R1-4"] { grid-area: m4; }
+.room1-grid .meja[data-id="R1-5"] { grid-area: m5; }
+
+.room1-grid .meja[data-id="R1-2"] { grid-area: m2; }
+.room1-grid .meja[data-id="R1-6"] { grid-area: m6; }
+.room1-grid .meja[data-id="R1-8"] { grid-area: m8; }
