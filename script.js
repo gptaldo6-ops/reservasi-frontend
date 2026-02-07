@@ -1,3 +1,14 @@
+const VARIANT_LABEL = {
+  A1: "Makanan",
+  A2: "Minuman",
+  B1: "Dessert",
+  B2: "Snack",
+  C1: "Coffee",
+  C2: "Non Coffee",
+  D1: "Add On",
+  D2: "Special"
+};
+
 let pendingPayload = null;
 let selectedTable = null;
 let selectedRoom = "R1";
@@ -79,8 +90,10 @@ function updateSummary() {
 
     card.querySelectorAll(".variant").forEach(v => {
       const vQty = parseInt(v.querySelector(".variant-qty").innerText, 10);
-      if (vQty > 0) html += `${v.dataset.variant} × ${vQty}<br/>`;
-    });
+      if (vQty > 0) {
+  const label = VARIANT_LABEL[v.dataset.variant] || v.dataset.variant;
+  html += `${label} × ${vQty}<br/>`;
+      }
 
     html += "<hr/>";
   });
@@ -294,3 +307,4 @@ btnWA.onclick = () => {
   form.submit();
   form.remove();
 };
+
