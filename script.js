@@ -253,33 +253,43 @@ document.getElementById("btnSubmit").onclick = () => {
     paket
   };
 
-  showPaymentPopup({
-    resvId: "R-TEST-01",
-    nama, tanggal,
-    meja: selectedTable,
-    total: 150000
-  });
+ const TOTAL_HARGA = 140000;
+
+   showPaymentPopup({
+     nama,
+     tanggal,
+     meja: selectedTable, // contoh: R1-5
+     total: TOTAL_HARGA
+   });
 };
 
 /* =========================
    PAYMENT
 ========================= */
-function showPaymentPopup({ resvId, nama, tanggal, meja, total }) {
+function showPaymentPopup({ nama, tanggal, meja, total }) {
   payTotal.innerText = total.toLocaleString("id-ID");
+
+  const waText =
+`Halo, saya sudah melakukan pembayaran QRIS.
+
+Kode Meja: ${meja}
+Nama: ${nama}
+Tanggal: ${tanggal}
+Total: Rp${total.toLocaleString("id-ID")}
+
+Saya lampirkan bukti transfer.
+Terima kasih.`;
 
   btnWA.href =
     "https://wa.me/6285156076002?text=" +
-    encodeURIComponent(`Kode: ${resvId}\nNama: ${nama}\nTanggal: ${tanggal}\nMeja: ${meja}`);
+    encodeURIComponent(waText);
 
   paymentModal.classList.remove("hidden");
 }
 
-function closePayment() {
-  paymentModal.classList.add("hidden");
-}
-
 btnWA.onclick = () => {
   if (!pendingPayload) return;
+
   const form = document.createElement("form");
   form.method = "POST";
   form.action = API_URL;
@@ -295,4 +305,6 @@ btnWA.onclick = () => {
   document.body.appendChild(form);
   form.submit();
   form.remove();
+
+  pendingPayload = null;
 };
