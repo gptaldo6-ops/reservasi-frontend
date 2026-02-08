@@ -330,3 +330,18 @@ valTypeRadios.forEach(radio => {
 
   });
 });
+
+function refreshValentineSummaryDisplay() {
+  const isDouble =
+    document.querySelector('input[name="valType"]:checked')?.value === "double";
+
+  document
+    .querySelectorAll("#order-summary br")
+    .forEach(br => {
+      const prev = br.previousSibling;
+      if (!prev || !prev.textContent) return;
+
+      // ganti × 1 / × 2 di teks saja
+      prev.textContent = prev.textContent.replace(/×\s*\d+/g, isDouble ? "× 2" : "× 1");
+    });
+}
