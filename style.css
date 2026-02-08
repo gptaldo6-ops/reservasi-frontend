@@ -431,3 +431,20 @@ section input[type="radio"] {
 #valentineType {
   display: block !important;
 }
+
+#valentineType label {
+  display: flex;
+  align-items: center;      /* kunci utama */
+  gap: 12px;
+  line-height: 1;           /* cegah teks turun */
+}
+
+#valentineType input[type="radio"] {
+  margin: 0;
+  transform: scale(1.15);
+  vertical-align: middle;   /* tambahan pengaman */
+}
+
+#valentineType span {
+  line-height: 1.2;
+}
