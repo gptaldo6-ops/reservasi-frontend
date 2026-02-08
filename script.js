@@ -281,7 +281,7 @@ Saya lampirkan bukti transfer.
 Terima kasih.`;
 
   btnWA.href =
-    "https://wa.me/6285156076002?text=" +
+    "https://wa.me/6285121396083?text=" +
     encodeURIComponent(waText);
 
   paymentModal.classList.remove("hidden");
@@ -308,3 +308,4 @@ btnWA.onclick = () => {
 
   pendingPayload = null;
 };
+
