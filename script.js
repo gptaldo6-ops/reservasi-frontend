@@ -314,3 +314,19 @@ function closePayment() {
     // Tambahkan class 'hidden' supaya dia menghilang
     modal.classList.add("hidden");
 }
+
+const valTypeRadios = document.querySelectorAll('input[name="valType"]');
+
+valTypeRadios.forEach(radio => {
+  radio.addEventListener("change", () => {
+
+    const isDouble = radio.value === "double";
+
+    document
+      .querySelectorAll('[data-paket="Valentine"] .variant-qty')
+      .forEach(qty => {
+        qty.innerText = isDouble ? 2 : 1;
+      });
+
+  });
+});
