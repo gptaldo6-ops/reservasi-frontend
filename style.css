@@ -431,3 +431,10 @@ section input[type="radio"] {
 #valentineType {
   display: block !important;
 }
+
+.meja.full {
+  background: #ffcdd2;      /* merah muda */
+  border-color: #c62828;    /* merah tua */
+  color: #000;
+  cursor: not-allowed;
+}
