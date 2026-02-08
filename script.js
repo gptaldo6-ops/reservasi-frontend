@@ -265,7 +265,9 @@ document.getElementById("btnSubmit").onclick = () => {
 /* =========================
    PAYMENT
 ========================= */
-function showPaymentPopup({ nama, tanggal, meja, total }) {
+function showPaymentPopup({ nama, tanggal, meja }) {
+  const total = getValentinePrice(); // 👈 INTINYA DI SINI
+
   payTotal.innerText = total.toLocaleString("id-ID");
 
   const waText =
@@ -346,4 +348,12 @@ function refreshValentineSummaryDisplay() {
       prev.textContent = prev.textContent.replace(/×\s*\d+/g, isDouble ? "× 2" : "× 1");
     });
 }
+
+function getValentinePrice() {
+  const type =
+    document.querySelector('input[name="valType"]:checked')?.value;
+
+  return type === "double" ? 280000 : 140000;
+}
+
 
