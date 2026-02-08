@@ -38,19 +38,24 @@
 
 <hr />
 
-<section class="paket-card" data-paket="Valentine" data-capacity="2">
+<section class="paket-card" id="paketValentine" data-paket="Valentine">
   <h1>Our Valentine Special Menu</h1>
-  <img src="/img/FotoPaketValentine.png" alt="paket valentines" class="paketImg">
-  <ul>
-    <li>2 Pasta</li>
-    <li>2 Beverage</li>
-    <li>2 Dessert</li>
-  </ul>
-        <div class="qty-control" style="display: none;">
-          <button type="button" class="paket-minus">−</button>
-          <span class="paket-qty">1</span>
-          <button type="button" class="paket-plus">+</button>
-        </div>
+
+  <div class="valentine-type">
+    <label>
+      <input type="radio" name="valType" value="date">
+      Date (Rp140.000)
+    </label><br>
+    <label>
+      <input type="radio" name="valType" value="double">
+      Double Date (Rp280.000)
+    </label>
+  </div>
+
+  <img src="/img/FotoPaketValentine.png" class="paketImg">
+
+  <!-- variant-list TETAP seperti punyamu -->
+  
         <div class="variant-list" style="display: none;">
                 <div class="variant" data-variant="A1">
                   <p class="namaVariant">Macaroni Cream Cheese</p>
@@ -353,6 +358,7 @@
 
 </body>
 </html>
+
 
 
 
