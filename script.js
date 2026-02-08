@@ -231,7 +231,6 @@ function collectPaketData() {
       data.push({ paket: card.dataset.paket, qty, variants });
     }
   });
-  console.log(data);
   return data;
 }
 
