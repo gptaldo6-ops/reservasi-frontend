@@ -1,3 +1,16 @@
+const CLOSED_TABLES = [
+  "R1-3",
+  "R1-5"
+];
+
+document.querySelectorAll(".meja").forEach(meja => {
+  if (CLOSED_TABLES.includes(meja.dataset.id)) {
+    meja.classList.add("full");
+  } else {
+    meja.classList.add("available");
+  }
+});
+
 let pendingPayload = null;
 let selectedTable = null;
 let selectedRoom = "R1";
@@ -355,5 +368,6 @@ function getValentinePrice() {
 
   return type === "double" ? 280000 : 140000;
 }
+
 
 
