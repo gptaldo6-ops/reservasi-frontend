@@ -309,3 +309,10 @@ btnWA.onclick = () => {
   pendingPayload = null;
 };
 
+function closePayment() {
+    const modal = document.getElementById("paymentModal");
+    
+    // Tambahkan class 'hidden' supaya dia menghilang
+    modal.classList.add("hidden");
+}
+
