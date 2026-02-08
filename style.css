@@ -416,3 +416,18 @@ section input[type="radio"] {
 #valentineType input[type="radio"] {
   transform: scale(1.2);
 }
+
+#valentineType label {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 10px;
+
+  /* ini penting */
+  justify-content: start !important;
+  text-align: left;
+}
+
+#valentineType {
+  display: block !important;
+}
