@@ -319,7 +319,8 @@ const valTypeRadios = document.querySelectorAll('input[name="valType"]');
 
 valTypeRadios.forEach(radio => {
   radio.addEventListener("change", () => {
-
+refreshValentineSummaryDisplay();
+     
     const isDouble = radio.value === "double";
 
     document
@@ -345,3 +346,4 @@ function refreshValentineSummaryDisplay() {
       prev.textContent = prev.textContent.replace(/×\s*\d+/g, isDouble ? "× 2" : "× 1");
     });
 }
+
