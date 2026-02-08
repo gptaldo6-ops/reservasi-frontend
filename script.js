@@ -89,6 +89,11 @@ function updateSummary() {
   summary.innerHTML = hasData
     ? html
     : "<p>Belum ada paket dipilih</p>";
+
+   
+}if (paket === "Valentine") {
+  html += `<strong>Paket Valentine</strong><br>`;
+  html += `Total: Rp${valentineTotal.toLocaleString("id-ID")}<br>`;
 }
 
 /* =========================
@@ -252,7 +257,7 @@ document.getElementById("btnSubmit").onclick = () => {
     paket
   };
 
- const TOTAL_HARGA = 140000;
+ const TOTAL_HARGA = valentineTotal;
 
    showPaymentPopup({
      nama,
@@ -315,3 +320,57 @@ function closePayment() {
     modal.classList.add("hidden");
 }
 
+let valentineMaxPerMenu = 0;
+let valentineTotal = 0;
+
+
+
+const valentineCard = document.getElementById("paketValentine");
+const valentineVariants = valentineCard.querySelectorAll(".variant");
+
+
+document.querySelectorAll('input[name="valType"]').forEach(radio => {
+  radio.addEventListener("change", () => {
+    if (radio.value === "date") {
+      valentineMaxPerMenu = 1;
+      valentineTotal = 140000;
+    } else {
+      valentineMaxPerMenu = 2;
+      valentineTotal = 280000;
+    }
+
+    // reset qty menu
+    valentineVariants.forEach(v => {
+      v.querySelector(".variant-qty").innerText = "0";
+    });
+
+    updateSummary();
+  });
+});
+
+valentineVariants.forEach(v => {
+  const plus = v.querySelector(".variant-plus");
+  const minus = v.querySelector(".variant-minus");
+  const qtyEl = v.querySelector(".variant-qty");
+
+  plus.onclick = () => {
+    if (valentineMaxPerMenu === 0) {
+      alert("Pilih Date atau Double Date dulu");
+      return;
+    }
+
+    if (+qtyEl.innerText < valentineMaxPerMenu) {
+      qtyEl.innerText++;
+      v.classList.add("selected");
+      updateSummary();
+    }
+  };
+
+  minus.onclick = () => {
+    if (+qtyEl.innerText > 0) {
+      qtyEl.innerText--;
+      if (+qtyEl.innerText === 0) v.classList.remove("selected");
+      updateSummary();
+    }
+  };
+});
