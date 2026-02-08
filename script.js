@@ -266,6 +266,10 @@ document.getElementById("btnSubmit").onclick = () => {
 /* =========================
    PAYMENT
 ========================= */
+const paymentModal = document.getElementById("paymentModal");
+const btnWA = document.getElementById("btnWA");
+const payTotal = document.getElementById("payTotal");
+
 function showPaymentPopup({ nama, tanggal, meja, total }) {
   payTotal.innerText = total.toLocaleString("id-ID");
 
@@ -284,8 +288,10 @@ Terima kasih.`;
     "https://wa.me/6285156076002?text=" +
     encodeURIComponent(waText);
 
-  paymentModal.classList.remove("hidden");
+ function closePayment() {
+  paymentModal.classList.add("hidden");
 }
+
 
 btnWA.onclick = () => {
   if (!pendingPayload) return;
@@ -308,3 +314,4 @@ btnWA.onclick = () => {
 
   pendingPayload = null;
 };
+
