@@ -1,15 +1,30 @@
-const CLOSED_TABLES = [
-  "R1-8",
-  "R1-5"
-];
+const DATA_BOOKING = {
+    "2026-02-14": ["R1-4", "R1-5"], // Tanggal 14: Meja ini full
+    "2026-02-15": ["R1-5", "R1-8"]      // Tanggal 15: Meja ini full
+};
 
-document.querySelectorAll(".meja").forEach(meja => {
-  if (CLOSED_TABLES.includes(meja.dataset.id)) {
-    meja.classList.add("full");
-  } else {
-    meja.classList.add("available");
-  }
-});
+
+/* =========================
+   2. FUNGSI LOAD STATUS (Versi Offline/Lokal)
+========================= */
+function loadTableStatus(tanggal) {
+    console.log("Mengecek status meja lokal untuk tanggal:", tanggal);
+    const bookingHariIni = DATA_BOOKING[tanggal] || [];
+
+    document.querySelectorAll(".meja").forEach(meja => {
+        const idMeja = meja.dataset.id;
+
+        // Reset kelas dulu (bersihkan status lama)
+        meja.classList.remove("full", "available", "selected");
+
+        if (bookingHariIni.includes(idMeja)) {
+            meja.classList.add("full");
+        }
+        else {
+            meja.classList.add("available");
+        }
+    });
+}
 
 let pendingPayload = null;
 let selectedTable = null;
@@ -206,24 +221,24 @@ function bindMejaClick() {
 const API_URL =
   "https://script.google.com/macros/s/AKfycbwFU-fHZR5lphEAX0R-I_BvKQx5H1MtCBxgfQU7s6Xnc-RYgx3UZX61RY7eXshk3EX0Sw/exec";
 
-function loadTableStatus(tanggal) {
-  if (!tanggal) return;
+// function loadTableStatus(tanggal) {
+//   if (!tanggal) return;
 
-  const cb = "cb_" + Date.now();
-  window[cb] = status => {
-    document.querySelectorAll(".meja").forEach(m => {
-      if (!m.closest(`.room-denah[data-room="${selectedRoom}"]`)) return;
-      m.classList.remove("available", "full", "selected");
-      m.classList.add(status[m.dataset.id] === "FULL" ? "full" : "available");
-    });
-    delete window[cb];
-    script.remove();
-  };
+//   const cb = "cb_" + Date.now();
+//   window[cb] = status => {
+//     document.querySelectorAll(".meja").forEach(m => {
+//       if (!m.closest(`.room-denah[data-room="${selectedRoom}"]`)) return;
+//       m.classList.remove("available", "full", "selected");
+//       m.classList.add(status[m.dataset.id] === "FULL" ? "full" : "available");
+//     });
+//     delete window[cb];
+//     script.remove();
+//   };
 
-  const script = document.createElement("script");
-  script.src = `${API_URL}?action=getTableStatus&tanggal=${tanggal}&callback=${cb}`;
-  document.body.appendChild(script);
-}
+//   const script = document.createElement("script");
+//   script.src = `${API_URL}?action=getTableStatus&tanggal=${tanggal}&callback=${cb}`;
+//   document.body.appendChild(script);
+// }
 
 document.getElementById("tanggal")
   .addEventListener("change", e => loadTableStatus(e.target.value));
