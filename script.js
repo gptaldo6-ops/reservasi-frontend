@@ -1,5 +1,5 @@
 const CLOSED_TABLES = [
-  "R1-3",
+  "R1-8",
   "R1-5"
 ];
 
@@ -368,6 +368,7 @@ function getValentinePrice() {
 
   return type === "double" ? 280000 : 140000;
 }
+
 
 
 
