@@ -1,6 +1,6 @@
 const DATA_BOOKING = {
-    "2026-02-14": ["IN-KANAN-1", "IN-TENGAH", "IN-TENGAH-BELAKANG", "R1-4", "R1-5"], // Tanggal 14: Meja ini full
-    "2026-02-15": ["IN-TENGAH", "IN-TENGAH-BELAKANG", "R1-5", "R1-8"]      // Tanggal 15: Meja ini full
+    "2026-02-14": ["IN-KANAN-1", "IN-TENGAH", "IN-TENGAH-BELAKANG"], // Tanggal 14: Meja ini full
+    "2026-02-15": ["IN-TENGAH", "IN-TENGAH-BELAKANG", "R1-8"]      // Tanggal 15: Meja ini full
 };
 
 
@@ -383,6 +383,7 @@ function getValentinePrice() {
 
   return type === "double" ? 280000 : 140000;
 }
+
 
 
 
