@@ -225,11 +225,6 @@ section input[type="radio"] {
   font-size: 13px;
 }
 
-/* STATUS */
-.meja.available {
-  background: #c8e6c9;
-}
-
 .meja.full {
   background: #ffcdd2;
   border-color: #c62828;
