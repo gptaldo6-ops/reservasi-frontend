@@ -200,7 +200,6 @@ section input[type="radio"] {
 /* MEJA */
 .meja {
   border: 2px solid #666;
-  border-radius: 12px;
   background: #eee;
   padding: 10px 6px;
   font-size: 12px;
@@ -229,7 +228,6 @@ section input[type="radio"] {
 /* STATUS */
 .meja.available {
   background: #c8e6c9;
-  border-color: #2e7d32;
 }
 
 .meja.full {
